@@ -25,3 +25,16 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+
+
+## API
+Make sure you have python 3 installed.
+
+- src/api >> python -m venv venv
+- src/api >> source venv/bin/activate
+- src/api >> pip install -r requirements.txt
+- src/api >> python manage.py migrate
+- src/api >> python manage.py runserver
+
+
