@@ -1,1 +1,18 @@
-<p>login works!</p>
+<form class="form-container" [formGroup]="loginForm">
+    <mat-form-field appearance="fill">
+      <mat-label>username</mat-label>
+      <input matInput formControlName="username" />
+    </mat-form-field>
+
+  
+    <mat-form-field appearance="fill">
+      <mat-label>password</mat-label>
+      <input matInput formControlName="password" />
+    </mat-form-field>
+  
+    <button mat-raised-button (click)="execute()">Register</button>
+  </form>
+  
+
+  <h3>nashiquzar</h3>
+  <h3>nashataparola</h3>
