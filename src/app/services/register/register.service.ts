@@ -5,14 +5,16 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class RegisterService {
+  private baseUrl = 'http://127.0.0.1:8000/';
   constructor(private httpService: HttpClient) {}
 
   public postUser(username: string, email: string, password: string) {
-    const url = '';
-    return this.httpService.post(url, {
-      username: username,
-      email: email,
-      password: password,
-    });
+    const url = `${this.baseUrl}/users/`;
+    const body = {
+      username,
+      email,
+      password,
+    };
+    return this.httpService.post(url, body);
   }
 }
