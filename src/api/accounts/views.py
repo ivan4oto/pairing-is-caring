@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User
 from accounts.serializers import UserGetSerializer, UserPostSerializer
 from accounts.mixins import MultiSerializerViewSetMixin
-from rest_framework import viewsets, permissions
+from accounts.permissions import IsPostOrIsAuthenticated
+from rest_framework import viewsets
 
 
 
@@ -13,5 +14,5 @@ class UserViewSet(MultiSerializerViewSetMixin, viewsets.ModelViewSet):
         'list': UserGetSerializer,
         'create': UserPostSerializer,
     }
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsPostOrIsAuthenticated]
     queryset = User.objects.all()
