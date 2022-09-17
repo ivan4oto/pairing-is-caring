@@ -6,6 +6,10 @@
 /out-tsc
 /bazel-out
 
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
 # Node
 /node_modules
 npm-debug.log
@@ -50,4 +54,5 @@ ENV/
 env.bak/
 venv.bak/
 
-runtime.txt
+# Database
+db.*
