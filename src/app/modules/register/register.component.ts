@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { JwtService } from 'src/app/services/jwt/jwt.service';
 import { UsersService } from 'src/app/services/users/users.service';
 
 @Component({
@@ -10,10 +12,15 @@ import { UsersService } from 'src/app/services/users/users.service';
 export class RegisterComponent implements OnInit {
   public registerForm!: FormGroup;
   constructor(
-    private usersService: UsersService
+    private usersService: UsersService,
+    private jwtService: JwtService,
+    private router: Router
     ) {}
 
   ngOnInit(): void {
+    if (this.jwtService.isLoggedIn()) {
+      this.router.navigate(['']);
+    }
     this.buildRegisterForm();
   }
 
