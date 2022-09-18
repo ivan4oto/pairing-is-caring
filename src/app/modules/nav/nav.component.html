@@ -6,7 +6,8 @@
     <a href="#">something</a>
   </div>
   <div class="credentials">
-    <button mat-raised-button routerLink="login">Login</button>
-    <button mat-raised-button routerLink="register">Register</button>
+    <button mat-raised-button *ngIf="isLoggedOut()" routerLink="login">Login</button>
+    <button mat-raised-button *ngIf="isLoggedOut()" routerLink="register">Register</button>
+    <button mat-raised-button *ngIf="!isLoggedOut()" (click)="logout()">Log Out</button>
   </div>
 </header>

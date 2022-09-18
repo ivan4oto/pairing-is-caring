@@ -18,4 +18,9 @@ export class JwtService {
     const expiration = localStorage.getItem("expires_at") as string;
     return moment(expiration);
   }  
+
+  public logout() {
+    localStorage.removeItem("id_token");
+    localStorage.removeItem("expires_at");
+  }
 }

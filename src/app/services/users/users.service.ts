@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class UsersService {
-  private baseUrl = 'http://127.0.0.1:8000/';
+  private baseUrl = 'http://127.0.0.1:8000';
   constructor(private httpService: HttpClient) {}
 
   public postUser(username: string, email: string, password: string) {
