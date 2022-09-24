@@ -1,3 +1,5 @@
 from django.contrib import admin
+from main.models import PairingSession
 
-# Register your models here.
+
+admin.site.register(PairingSession)
