@@ -8,8 +8,10 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-from accounts.utils import inline_serializer
+from accounts.utils import inline_serializer, get_object
 from accounts.models import Account
+from accounts.services import account_update, account_create
+from main.models import PairingSession
 
 
 class AccountCreateApi(APIView):
@@ -17,21 +19,13 @@ class AccountCreateApi(APIView):
         email = serializers.CharField()
         username = serializers.CharField()
         password = serializers.CharField()
-        def create(self, validated_data):
-            account = Account(
-                email=validated_data['email'],
-                username=validated_data['username']
-            )
-            account.set_password(validated_data['password'])
-            account.save()
-            return account
-    
+
     def post(self, request):
         serializer = self.InputSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-
-        serializer.save()
-
+        pairing_session = PairingSession()
+        pairing_session.save()
+        account_create(**serializer.validated_data, pairing_session=pairing_session)
         return Response(status=status.HTTP_201_CREATED)
 
 
@@ -46,13 +40,13 @@ class AccountUpdateApi(APIView):
 
 
     
-    def post(self, request):
+    def post(self, request, account_id):
         serializer = self.InputSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        account = get_object(Account, pk=account_id)
+        account_update(account=account, data=serializer.validated_data)
 
-        serializer.save()
-
-        return Response(status=status.HTTP_201_CREATED)
+        return Response(status=status.HTTP_200_OK)
 
 
 

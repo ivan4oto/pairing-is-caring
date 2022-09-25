@@ -38,7 +38,7 @@ class CustomAccountManager(BaseUserManager):
 class Account(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(verbose_name="email", max_length=60, unique=True)
     username = models.CharField(max_length=50, unique=True)
-    pairing_since = models.DateTimeField(verbose_name="paring since", null=True)
+    pairing_since = models.DateTimeField(verbose_name="paring since", null=True, blank=True)
     pairing_session = models.ForeignKey(PairingSession, on_delete=models.CASCADE, null=True)
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)

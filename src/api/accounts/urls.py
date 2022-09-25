@@ -7,5 +7,5 @@ from accounts.views import (
 
 urlpatterns = [
     path('create/', AccountCreateApi.as_view(), name='create'),
-    path('update/', AccountUpdateApi.as_view(), name='update')
+    path('<int:account_id>/update/', AccountUpdateApi.as_view(), name='update')
 ]
