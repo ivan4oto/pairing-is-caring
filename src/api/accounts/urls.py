@@ -1,11 +1,13 @@
 from django.urls import path
 from accounts.views import (
     AccountCreateApi,
-    AccountUpdateApi
+    AccountUpdateApi,
+    AccountListApi
 )
 
 
 urlpatterns = [
     path('create/', AccountCreateApi.as_view(), name='create'),
-    path('<int:account_id>/update/', AccountUpdateApi.as_view(), name='update')
+    path('<int:account_id>/update/', AccountUpdateApi.as_view(), name='update'),
+    path('list/', AccountListApi.as_view(), name='list')
 ]

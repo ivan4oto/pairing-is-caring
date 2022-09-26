@@ -13,8 +13,8 @@ def account_update(*, account, data):
 
 def account_create(*, email, username, password, pairing_session=None):
     obj = Account(email=email, username=username, pairing_session=pairing_session)
-    obj.full_clean()
     obj.set_password(password)
+    obj.full_clean()
     obj.save()
 
     return obj

@@ -49,6 +49,20 @@ class AccountUpdateApi(APIView):
         return Response(status=status.HTTP_200_OK)
 
 
+class AccountListApi(APIView):
+    class OutputSerializer(serializers.Serializer):
+        pairing_session = inline_serializer(fields={
+            'id': serializers.IntegerField(),
+            'start_time': serializers.DateTimeField(),
+        })
+        is_active = serializers.BooleanField()
+        email = serializers.CharField()
+        username = serializers.CharField()
+        
+    def get(self, request):
+        accounts = Account.objects.all() # reduce the admins/superusers
+        data = self.OutputSerializer(accounts, many=True).data
+        return Response(data)      
 
 
 class MyTokenObtainPairView(TokenObtainPairView):

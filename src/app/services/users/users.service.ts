@@ -9,7 +9,7 @@ export class UsersService {
   constructor(private httpService: HttpClient) {}
 
   public postUser(username: string, email: string, password: string) {
-    const url = `${this.baseUrl}/users/`;
+    const url = `${this.baseUrl}/accounts/create/`;
     const body = {
       username,
       email,
@@ -25,5 +25,10 @@ export class UsersService {
       password
     };
     return this.httpService.post(url, body);
+  }
+
+  public getUsers() {
+    const url = `${this.baseUrl}/accounts/list/`;
+    return this.httpService.get(url);
   }
 }

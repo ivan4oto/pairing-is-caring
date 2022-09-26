@@ -1,5 +1,5 @@
 from django.urls import path
-from main.views import PairingSessionListPairGroupsApi
+from main.views import PairingSessionListPairGroupsApi, PairingSessionListApi
 
 
 urlpatterns = [
@@ -8,4 +8,5 @@ urlpatterns = [
         PairingSessionListPairGroupsApi.as_view(),
         name='list-groups'
         ),
+    path('list/', PairingSessionListApi.as_view(), name='list')
 ]

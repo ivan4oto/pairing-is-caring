@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as _ from "lodash";
 import {CdkDragDrop, moveItemInArray, transferArrayItem, CdkDrag} from '@angular/cdk/drag-drop';
+import { UsersService } from 'src/app/services/users/users.service';
 
 @Component({
   selector: 'app-paring-table',
@@ -19,6 +20,8 @@ export class ParingTableComponent implements OnInit {
     {name: 'mimi', pairs: ['petya']},
     {name: 'petya', pairs: ['mimi']}
   ]
+
+  private allUsers!: any[];
   
 
   public constructLists(): any[] {
@@ -35,11 +38,17 @@ export class ParingTableComponent implements OnInit {
 
   public done = ['Get up', 'Brush teeth', 'Take a shower', 'Check e-mail', 'Walk dog'];
 
-  constructor() {
+  constructor(
+    private userService: UsersService
+  ) {
   }
 
   ngOnInit(): void {
+
     this.constructLists();
+    this.userService.getUsers().subscribe((response) => {
+      this.allUsers = response as [];
+    })
   }
 
   public drop(event: CdkDragDrop<string[]>) {
