@@ -1,7 +1,11 @@
 from django.urls import path
-from main.views import AccountCreateApi
+from main.views import PairingSessionListPairGroupsApi
 
 
 urlpatterns = [
-    path('create/', AccountCreateApi.as_view(), name='create'),
+    path(
+        'list-groups/', 
+        PairingSessionListPairGroupsApi.as_view(),
+        name='list-groups'
+        ),
 ]
