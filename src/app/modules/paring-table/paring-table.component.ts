@@ -11,6 +11,7 @@ import { AccountListResponse } from 'src/app/models/accounts';
 })
 export class ParingTableComponent implements OnInit {
   public allUsers!: any[];
+  public sessions!: Record<number, AccountListResponse[]>
   
   constructor(
     private userService: UsersService
@@ -20,11 +21,12 @@ export class ParingTableComponent implements OnInit {
   ngOnInit(): void {
     this.userService.getUsers().subscribe((response: AccountListResponse[]) => {
       const arrayOfSessions = _.groupBy(response, ({pairing_session: { id }}) => `${id}`)
+      this.sessions = arrayOfSessions;
       this.allUsers = Object.values(arrayOfSessions)
     });
   }
 
-  public drop(event: CdkDragDrop<string[]>) {
+  public drop(event: CdkDragDrop<any>, sessionId: string) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
@@ -34,27 +36,13 @@ export class ParingTableComponent implements OnInit {
         event.previousIndex,
         event.currentIndex,
       );
-      this.getSessionId(event.container)
-      // console.log(event);
-      // console.log(event.container.data[event.currentIndex]);
+      console.log(event.container.data[event.currentIndex])
+      event.container.data[event.currentIndex].pairing_session.id = sessionId
     }
-  }
-
-  public getSessionId(container: CdkDropList): void {
-    // console.log(container.data)
-    if (container.data.length === 1) {
-      console.log('Empty container!')
-    } else {
-      console.log(container.data[0].pairing_session.id + ' <-- Session id')
-    }
-
   }
 }
+
+
 // We should constantly have an empty droplist container at the bottom and when we drop
 // a box we should send the Account for update to the backend with empty pairing_session property
 // then the backend should create a new one and add it to the account then return it back.
-
-// Is there a better way to get the session id when we add a new account to populated container?
-
-// Is it possible for the container to have an id or property identical to the pairing_session id
-// of the Accounts when first created?

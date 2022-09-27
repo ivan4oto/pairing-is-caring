@@ -55,6 +55,7 @@ class AccountListApi(APIView):
             'id': serializers.IntegerField(),
             'start_time': serializers.DateTimeField(),
         })
+        id = serializers.IntegerField()
         is_active = serializers.BooleanField()
         email = serializers.CharField()
         username = serializers.CharField()
