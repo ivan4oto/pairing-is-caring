@@ -1,14 +1,14 @@
 <div class="example-container">
   <div cdkDropListGroup>
     <div
-    *ngFor="let item of pairs;"
+    *ngFor="let item of allUsers;"
     style="margin: 10px;"
     cdkDropListOrientation="horizontal"
     cdkDropList
     [cdkDropListData]="item"
     class="example-list"
     (cdkDropListDropped)="drop($event)">
-    <div class="example-box" *ngFor="let dude of item" cdkDrag>{{dude}}</div>
+    <div class="example-box" *ngFor="let dude of item" cdkDrag>{{dude.username}}</div>
     </div>
 
   </div>

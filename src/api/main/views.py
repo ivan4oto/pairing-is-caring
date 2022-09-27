@@ -10,7 +10,7 @@ from accounts.utils import inline_serializer
 class PairingSessionListApi(APIView):
     class OutputSerializer(serializers.Serializer):
         id = serializers.CharField()
-        start_time = serializers.TimeField()
+        start_time = serializers.DateTimeField()
 
     def get(self, request):
         pairing_sessions = PairingSession.objects.all()
@@ -24,7 +24,7 @@ class PairingSessionListApi(APIView):
 class PairingSessionListPairGroupsApi(APIView):
     class OutputSerializer(serializers.Serializer):
         id = serializers.CharField()
-        start_time = serializers.TimeField()
+        start_time = serializers.DateTimeField()
         athletes = inline_serializer(fields={
             'id': serializers.IntegerField(),
             'username': serializers.CharField(),
@@ -35,7 +35,6 @@ class PairingSessionListPairGroupsApi(APIView):
         pairing_sessions = PairingSession.objects.all()
         for session in pairing_sessions:
             session.athletes = get_athletes_in_this_session(session.id)
-        print(pairing_sessions[0].__dict__)
         data = self.OutputSerializer(pairing_sessions, many=True).data
 
         return Response(data)

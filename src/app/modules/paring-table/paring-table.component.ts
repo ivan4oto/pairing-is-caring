@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import * as _ from "lodash";
-import {CdkDragDrop, moveItemInArray, transferArrayItem, CdkDrag} from '@angular/cdk/drag-drop';
+import {CdkDragDrop, moveItemInArray, transferArrayItem, CdkDrag, CdkDropList} from '@angular/cdk/drag-drop';
 import { UsersService } from 'src/app/services/users/users.service';
+import { AccountListResponse } from 'src/app/models/accounts';
 
 @Component({
   selector: 'app-paring-table',
@@ -9,46 +10,18 @@ import { UsersService } from 'src/app/services/users/users.service';
   styleUrls: ['./paring-table.component.scss']
 })
 export class ParingTableComponent implements OnInit {
-  // public todo = ['Get to work', 'Pick up groceries', 'Go home', 'Fall asleep'];
-  public pairs!: any[];
-  todoList3="todoList3"
-  public people = [
-    {name: 'ivan', pairs: ['gosho', 'mitko']},
-    {name: 'mitko', pairs: ['gosho', 'ivan']},
-    {name: 'gosho', pairs: ['ivan', 'mitko']},
-    {name: 'koce', pairs: []},
-    {name: 'mimi', pairs: ['petya']},
-    {name: 'petya', pairs: ['mimi']}
-  ]
-
-  private allUsers!: any[];
+  public allUsers!: any[];
   
-
-  public constructLists(): any[] {
-    const resultList = new Array();
-    this.people.forEach(obzekt => {
-      console.log(obzekt)
-      resultList.push([...obzekt.pairs, obzekt.name].sort())
-    });
-    const uniqarray = _.uniqWith(resultList, _.isEqual);
-    this.pairs = uniqarray;
-    return uniqarray;
-  }
-
-
-  public done = ['Get up', 'Brush teeth', 'Take a shower', 'Check e-mail', 'Walk dog'];
-
   constructor(
     private userService: UsersService
   ) {
   }
 
   ngOnInit(): void {
-
-    this.constructLists();
-    this.userService.getUsers().subscribe((response) => {
-      this.allUsers = response as [];
-    })
+    this.userService.getUsers().subscribe((response: AccountListResponse[]) => {
+      const arrayOfSessions = _.groupBy(response, ({pairing_session: { id }}) => `${id}`)
+      this.allUsers = Object.values(arrayOfSessions)
+    });
   }
 
   public drop(event: CdkDragDrop<string[]>) {
@@ -61,7 +34,27 @@ export class ParingTableComponent implements OnInit {
         event.previousIndex,
         event.currentIndex,
       );
-      console.log(this.pairs);
+      this.getSessionId(event.container)
+      // console.log(event);
+      // console.log(event.container.data[event.currentIndex]);
     }
   }
+
+  public getSessionId(container: CdkDropList): void {
+    // console.log(container.data)
+    if (container.data.length === 1) {
+      console.log('Empty container!')
+    } else {
+      console.log(container.data[0].pairing_session.id + ' <-- Session id')
+    }
+
+  }
 }
+// We should constantly have an empty droplist container at the bottom and when we drop
+// a box we should send the Account for update to the backend with empty pairing_session property
+// then the backend should create a new one and add it to the account then return it back.
+
+// Is there a better way to get the session id when we add a new account to populated container?
+
+// Is it possible for the container to have an id or property identical to the pairing_session id
+// of the Accounts when first created?

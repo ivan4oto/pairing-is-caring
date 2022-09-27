@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { AccountListResponse } from 'src/app/models/accounts';
 
 @Injectable({
   providedIn: 'root',
@@ -27,8 +29,8 @@ export class UsersService {
     return this.httpService.post(url, body);
   }
 
-  public getUsers() {
+  public getUsers(): Observable<AccountListResponse[]> {
     const url = `${this.baseUrl}/accounts/list/`;
-    return this.httpService.get(url);
+    return this.httpService.get<AccountListResponse[]>(url);
   }
 }
