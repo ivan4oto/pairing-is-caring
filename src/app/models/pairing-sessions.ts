@@ -1,4 +1,4 @@
 export interface PairingSession {
-    id: number;
+    id: string;
     start_time: string
 }

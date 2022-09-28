@@ -3,6 +3,8 @@ import * as _ from "lodash";
 import {CdkDragDrop, moveItemInArray, transferArrayItem, CdkDrag, CdkDropList} from '@angular/cdk/drag-drop';
 import { UsersService } from 'src/app/services/users/users.service';
 import { AccountListResponse } from 'src/app/models/accounts';
+import { PairingSession } from 'src/app/models/pairing-sessions';
+import { SessionsService } from 'src/app/services/sessions/sessions.service';
 
 @Component({
   selector: 'app-paring-table',
@@ -11,19 +13,41 @@ import { AccountListResponse } from 'src/app/models/accounts';
 })
 export class ParingTableComponent implements OnInit {
   public allUsers!: any[];
+  public allSessions!: PairingSession[];
   public sessions!: Record<number, AccountListResponse[]>
   
   constructor(
-    private userService: UsersService
+    private userService: UsersService,
+    private sessionService: SessionsService
   ) {
   }
 
   ngOnInit(): void {
+    this.loadSessions();
+
+
     this.userService.getUsers().subscribe((response: AccountListResponse[]) => {
       const arrayOfSessions = _.groupBy(response, ({pairing_session: { id }}) => `${id}`)
       this.sessions = arrayOfSessions;
       this.allUsers = Object.values(arrayOfSessions)
     });
+  }
+
+  private loadSessions() {
+    this.sessionService.getSessions().subscribe((response: PairingSession[]) => {
+      this.allSessions = response;
+    })
+  }
+
+
+  private getSessionById(id: string): PairingSession | undefined {
+    return this.allSessions.find(session => {
+      session.id === id;
+    })
+  }
+
+  private updateUser(){
+    throw new Error('Method not implemented.');
   }
 
   public drop(event: CdkDragDrop<any>, sessionId: string) {
@@ -37,6 +61,12 @@ export class ParingTableComponent implements OnInit {
         event.currentIndex,
       );
       console.log(event.container.data[event.currentIndex])
+      const userId = event.container.data[event.currentIndex].userId
+      const newUserSession = this.getSessionById(sessionId)
+      if (newUserSession) {
+        console.log(userId)
+      }
+      // this.updateUser()
       event.container.data[event.currentIndex].pairing_session.id = sessionId
     }
   }
