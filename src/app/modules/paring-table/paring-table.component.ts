@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as _ from "lodash";
 import {CdkDragDrop, moveItemInArray, transferArrayItem, CdkDrag, CdkDropList} from '@angular/cdk/drag-drop';
 import { UsersService } from 'src/app/services/users/users.service';
-import { Account, AccountListResponse } from 'src/app/models/accounts';
+import { Account, AccountListResponse, AccountOutputSerializer } from 'src/app/models/accounts';
 import { PairingSession } from 'src/app/models/pairing-sessions';
 import { SessionsService } from 'src/app/services/sessions/sessions.service';
 
@@ -46,16 +46,14 @@ export class ParingTableComponent implements OnInit {
     })
   }
 
-  private updateUser(user: Account){
+  private updateUser(user: AccountOutputSerializer){
     this.userService.updateUser(user).subscribe((response) => {
       console.log(response);
-      const id: number = +user.pairing_session.id;
-      const userToUpdate = this.sessions[id].find(x => x.id === user.id);
-      if (userToUpdate) {
-        // userToUpdate.email = "UPDATED"
-      }
-
     });
+  }
+
+  public unpair(event: CdkDragDrop<any>) {
+    console.log('hi')
   }
 
   public drop(event: CdkDragDrop<any>, sessionId: string): void {
@@ -68,13 +66,13 @@ export class ParingTableComponent implements OnInit {
         event.previousIndex,
         event.currentIndex,
       );
-      const droppedUser: Account = event.container.data[event.currentIndex];
+      const droppedUser: AccountOutputSerializer = event.container.data[event.currentIndex];
 
       if (sessionId === '0') {
         // if user dropped into the empty box a new session is created
         // and added to the user.pairing_session
         // const newSession = this.getNewSession();
-        droppedUser.pairing_session = {id: '', start_time: ''};
+        droppedUser.pairing_session = undefined;
         this.updateUser(droppedUser);
         return;
       }

@@ -16,7 +16,7 @@ export interface Account {
     is_active: boolean;   
 }
 
-export interface AccountOutputModel {
+export interface AccountOutputSerializer {
     id: number;
     pairing_session?: PairingSession;
     username: string;

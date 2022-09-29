@@ -10,16 +10,13 @@
       (cdkDropListDropped)="drop($event, item.key)">
       <div class="example-box" *ngFor="let dude of item.value" cdkDrag>{{dude.username}} --> {{dude.email}}</div>
     </div>
-  </div>
-
-  <div cdkDropListGroup>
     <div
       style="margin: 10px;"
       cdkDropListOrientation="horizontal"
       cdkDropList
       [cdkDropListData]=""
       class="example-list"
-      (cdkDropListDropped)="drop($event, '0')">
+      (cdkDropListDropped)="unpair($event)">
       <div class="example-box" cdkDrag></div>
     </div>
   </div>

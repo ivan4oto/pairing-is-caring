@@ -37,11 +37,14 @@ class AccountUpdateApi(APIView):
         })
         is_active = serializers.BooleanField()
 
-
-
-    
     def post(self, request, account_id):
-        serializer = self.InputSerializer(data=request.data)
+        request_data = request.data
+        if request_data.get('pairing_session') is None:
+            pairing_session = PairingSession()
+            pairing_session.save()
+            request_data['pairing_session'] = pairing_session
+        print(request_data)
+        serializer = self.InputSerializer(data=request_data)
         serializer.is_valid(raise_exception=True)
         account = get_object(Account, pk=account_id)
         account_update(account=account, data=serializer.validated_data)
