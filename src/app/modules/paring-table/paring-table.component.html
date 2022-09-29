@@ -1,15 +1,26 @@
 <div class="example-container">
   <div cdkDropListGroup>
     <div
-    *ngFor="let item of sessions | keyvalue;"
-    style="margin: 10px;"
-    cdkDropListOrientation="horizontal"
-    cdkDropList
-    [cdkDropListData]="item.value"
-    class="example-list"
-    (cdkDropListDropped)="drop($event, item.key)">
-    <div class="example-box" *ngFor="let dude of item.value" cdkDrag>{{dude.username}} --> {{dude.email}}</div>
+      *ngFor="let item of sessions | keyvalue;"
+      style="margin: 10px;"
+      cdkDropListOrientation="horizontal"
+      cdkDropList
+      [cdkDropListData]="item.value"
+      class="example-list"
+      (cdkDropListDropped)="drop($event, item.key)">
+      <div class="example-box" *ngFor="let dude of item.value" cdkDrag>{{dude.username}} --> {{dude.email}}</div>
     </div>
+  </div>
 
+  <div cdkDropListGroup>
+    <div
+      style="margin: 10px;"
+      cdkDropListOrientation="horizontal"
+      cdkDropList
+      [cdkDropListData]=""
+      class="example-list"
+      (cdkDropListDropped)="drop($event, '0')">
+      <div class="example-box" cdkDrag></div>
+    </div>
   </div>
 </div>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AccountListResponse } from 'src/app/models/accounts';
+import { Account, AccountListResponse } from 'src/app/models/accounts';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +18,11 @@ export class UsersService {
       password,
     };
     return this.httpService.post(url, body);
+  }
+
+  public updateUser(user: Account) {
+    const url = `${this.baseUrl}/accounts/${user.id}/update/`;
+    return this.httpService.post(url, user);
   }
 
   public loginUser(username: string, password: string) {
