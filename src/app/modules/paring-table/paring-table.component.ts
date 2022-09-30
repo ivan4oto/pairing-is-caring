@@ -14,6 +14,7 @@ import { SessionsService } from 'src/app/services/sessions/sessions.service';
 export class ParingTableComponent implements OnInit {
   public allUsers!: any[];
   public allSessions!: PairingSession[];
+  // public unpair
   public sessions!: Record<number, AccountListResponse[]>
   
   constructor(
@@ -29,6 +30,7 @@ export class ParingTableComponent implements OnInit {
     this.userService.getUsers().subscribe((response: AccountListResponse[]) => {
       const arrayOfSessions = _.groupBy(response, ({pairing_session: { id }}) => `${id}`)
       this.sessions = arrayOfSessions;
+      this.sessions['0'] = [];
       this.allUsers = Object.values(arrayOfSessions)
     });
   }
@@ -48,12 +50,13 @@ export class ParingTableComponent implements OnInit {
 
   private updateUser(user: AccountOutputSerializer){
     this.userService.updateUser(user).subscribe((response) => {
-      console.log(response);
+      // console.log(response);
     });
   }
 
   public unpair(event: CdkDragDrop<any>) {
     console.log('hi')
+    console.log(event);
   }
 
   public drop(event: CdkDragDrop<any>, sessionId: string): void {
