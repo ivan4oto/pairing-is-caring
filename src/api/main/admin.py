@@ -1,3 +1,7 @@
 from django.contrib import admin
+from main.models import PairingSession
 
-# Register your models here.
+class PairingSessionAdmin(admin.ModelAdmin):
+    list_display = ['id', 'start_time']
+
+admin.site.register(PairingSession, PairingSessionAdmin)

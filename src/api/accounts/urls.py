@@ -1,5 +1,13 @@
-from rest_framework import routers
-from accounts.views import UserViewSet
+from django.urls import path
+from accounts.views import (
+    AccountCreateApi,
+    AccountUpdateApi,
+    AccountListApi
+)
 
-router = routers.SimpleRouter()
-router.register(r'users', UserViewSet)
+
+urlpatterns = [
+    path('create/', AccountCreateApi.as_view(), name='create'),
+    path('<int:account_id>/update/', AccountUpdateApi.as_view(), name='update'),
+    path('list/', AccountListApi.as_view(), name='list')
+]
