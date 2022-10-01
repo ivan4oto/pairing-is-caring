@@ -42,8 +42,10 @@ class AccountUpdateApi(APIView):
         if request_data.get('pairing_session') is None:
             pairing_session = PairingSession()
             pairing_session.save()
-            request_data['pairing_session'] = pairing_session
-        print(request_data)
+            request_data['pairing_session'] = {
+                "id": pairing_session.id,
+                "start_time": pairing_session.start_time
+            }
         serializer = self.InputSerializer(data=request_data)
         serializer.is_valid(raise_exception=True)
         account = get_object(Account, pk=account_id)

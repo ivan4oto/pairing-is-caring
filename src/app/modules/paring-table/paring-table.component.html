@@ -12,17 +12,7 @@
         <div class="example-box" *ngFor="let dude of item.value" cdkDrag>{{dude.username}} --> {{dude.email}}</div>
       </ng-container>
       <ng-container *ngIf="item.value.length === 0">
-        <div class="example-box" cdkDrag>I AM EMPTY</div>
       </ng-container> 
     </div>
-    <!-- <div
-      style="margin: 10px;"
-      cdkDropListOrientation="horizontal"
-      cdkDropList
-      [cdkDropListData]=""
-      class="example-list"
-      (cdkDropListDropped)="drop($event, '0')">
-      <div class="example-box" cdkDrag></div>
-    </div> -->
   </div>
 </div>
