@@ -27,20 +27,21 @@ export class LoginComponent implements OnInit {
 
   public buildLoginForm() {
     this.loginForm = new FormGroup({
-      username: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required]),
     });
   }
 
   public execute() {
-    const unsername = this.loginForm.controls['username'].value;
+    const email = this.loginForm.controls['email'].value;
     const password = this.loginForm.controls['password'].value;
     this.usersService
-      .loginUser(unsername, password)
+      .loginUser(email, password)
       .subscribe((response) => {
         const expiresIn = Object(response)['expiresIn'];
         const accessId = Object(response)['access'];
-        this.jwtService.storeJwtToken(accessId, expiresIn);
+        const username = Object(response)['username'];
+        this.jwtService.storeJwtToken(accessId, expiresIn, username);
         console.log(this.jwtService.isLoggedIn());
       });
   }

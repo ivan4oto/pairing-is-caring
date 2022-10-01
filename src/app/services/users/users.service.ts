@@ -20,16 +20,21 @@ export class UsersService {
     return this.httpService.post(url, body);
   }
 
+  public getUser(username: string): Observable<Account> {
+    const url = `${this.baseUrl}/accounts/`;
+    return this.httpService.post<Account>(url, {username: username});
+  }
+
   public updateUser(user: AccountOutputSerializer): Observable<Account> {
     const url = `${this.baseUrl}/accounts/${user.id}/update/`;
     return this.httpService.post<Account>(url, user);
   }
 
-  public loginUser(username: string, password: string) {
+  public loginUser(email: string, password: string) {
     const url = `${this.baseUrl}/api/token/`;
     const body = {
-      username,
-      password
+      email,
+      password,
     };
     return this.httpService.post(url, body);
   }

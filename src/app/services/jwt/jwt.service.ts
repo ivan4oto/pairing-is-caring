@@ -5,9 +5,14 @@ import * as moment from 'moment';
   providedIn: 'root',
 })
 export class JwtService {
-  public storeJwtToken(idToken: string, expiresIn: string) {
+  public storeJwtToken(idToken: string, expiresIn: string, username: string) {
     localStorage.setItem('id_token', idToken);
     localStorage.setItem("expires_at", expiresIn);
+    localStorage.setItem("username", username)
+  }
+  
+  public getUsername(): string | null {
+    return localStorage.getItem('username');
   }
 
   public isLoggedIn() {
