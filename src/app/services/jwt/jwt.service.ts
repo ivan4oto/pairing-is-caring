@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
+import { Account } from 'src/app/models/accounts';
 
 @Injectable({
   providedIn: 'root',
@@ -14,11 +15,16 @@ export class JwtService {
   public getUsername(): string | null {
     return localStorage.getItem('username');
   }
-
+  getUser(): Account {
+    const jsonUser = localStorage.getItem('user') || '';
+    return JSON.parse(jsonUser) as Account;
+    // throw new Error('Method not implemented.');
+  }
+  
   public isLoggedIn() {
     return moment().isBefore(this.getExpiration());
   }
-
+  
   private getExpiration() {
     const expiration = localStorage.getItem("expires_at") as string;
     return moment(expiration);

@@ -12,22 +12,23 @@ import { SessionsService } from 'src/app/services/sessions/sessions.service';
   styleUrls: ['./paring-table.component.scss']
 })
 export class ParingTableComponent implements OnInit {
+  private currentGroup: string;
+  public sessionGroup!: string;
   public allUsers!: any[];
   public allSessions!: PairingSession[];
-  // public unpair
   public sessions!: Record<number, AccountListResponse[]>
   
   constructor(
     private userService: UsersService,
     private sessionService: SessionsService
   ) {
+    this.currentGroup = this.sessionService.getGroup() || '';
   }
 
   ngOnInit(): void {
     this.loadSessions();
-
-
-    this.userService.getUsers().subscribe((response: AccountListResponse[]) => {
+    this
+    this.userService.getUsersByGroup(this.currentGroup).subscribe((response: AccountListResponse[]) => {
       const arrayOfSessions = _.groupBy(response, ({pairing_session: { id }}) => `${id}`)
       this.sessions = arrayOfSessions;
       this.sessions['0'] = [];

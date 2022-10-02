@@ -1,0 +1,28 @@
+<p>group-select works!</p>
+
+<div style="text-align: center;">
+  
+  <form class="form-container" [formGroup]="groupCreateForm">
+      <mat-form-field appearance="fill">
+        <mat-label>group name</mat-label>
+        <input matInput formControlName="groupName" />
+      </mat-form-field>  
+      <button mat-raised-button (click)="createGroup()">Create</button>
+    </form>
+  
+    
+  <h4>Basic mat-select</h4>
+  
+  <form class="form-container" [formGroup]="groupSelectForm" (ngSubmit)="submitGroup()">
+    <mat-form-field appearance="fill">
+      <mat-label>Favorite food</mat-label>
+      <mat-select>
+        <mat-option *ngFor="let group of availableGroups" [value]="group.name">
+          {{group.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button type="submit" class="btn btn-danger btn-lg btn-block">Join Group</button>
+  </form>
+
+</div>
