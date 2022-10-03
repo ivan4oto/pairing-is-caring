@@ -82,6 +82,24 @@ class AccountListApi(APIView):
         return Response(data)      
 
 
+
+
+class AccountDeleteApi(APIView):
+    def delete(self, request, account_id, field=None):
+        print(account_id, field)
+        account_obj = get_object(Account, pk=account_id)
+        if field is None:
+            account_obj.delete()
+            print('deleted the whole obj')
+        setattr(account_obj, field, None)
+        print('deleted just the field')
+        account_obj.save()
+
+        return Response(status=status.HTTP_200_OK)
+
+
+
+
 class MyTokenObtainPairView(TokenObtainPairView):
     class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         def validate(self, attrs):
