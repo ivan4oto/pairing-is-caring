@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Account } from 'src/app/models/accounts';
 import { JwtService } from 'src/app/services/jwt/jwt.service';
 import { UsersService } from 'src/app/services/users/users.service';
 
@@ -38,11 +39,14 @@ export class LoginComponent implements OnInit {
     this.usersService
       .loginUser(email, password)
       .subscribe((response) => {
+        console.log(response)
+        console.log(Object(response))
+        console.log(Object(response)['user'])
         const expiresIn = Object(response)['expiresIn'];
         const accessId = Object(response)['access'];
-        const username = Object(response)['username'];
-        this.jwtService.storeJwtToken(accessId, expiresIn, username);
-        console.log(this.jwtService.isLoggedIn());
+        const userData = Object(response)['user'];
+
+        this.jwtService.storeJwtToken(accessId, expiresIn, userData);
       });
   }
 }

@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from django.shortcuts import get_object_or_404
 from django.http import Http404
-from yaml import serialize
 
 
 def create_serializer_class(name, fields):

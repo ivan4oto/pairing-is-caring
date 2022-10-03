@@ -6,19 +6,15 @@ import { Account } from 'src/app/models/accounts';
   providedIn: 'root',
 })
 export class JwtService {
-  public storeJwtToken(idToken: string, expiresIn: string, username: string) {
+  public storeJwtToken(idToken: string, expiresIn: string, userData: string) {
     localStorage.setItem('id_token', idToken);
-    localStorage.setItem("expires_at", expiresIn);
-    localStorage.setItem("username", username)
+    localStorage.setItem('expires_at', expiresIn);
+    localStorage.setItem('user', JSON.stringify(userData))
   }
-  
-  public getUsername(): string | null {
-    return localStorage.getItem('username');
-  }
+
   getUser(): Account {
     const jsonUser = localStorage.getItem('user') || '';
     return JSON.parse(jsonUser) as Account;
-    // throw new Error('Method not implemented.');
   }
   
   public isLoggedIn() {

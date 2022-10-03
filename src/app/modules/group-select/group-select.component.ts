@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { switchMap } from 'rxjs';
 import { Account, AccountOutputSerializer } from 'src/app/models/accounts';
 import { PairingGroup } from 'src/app/models/pairing-sessions';
+import { GroupsService } from 'src/app/services/groups/groups.service';
 import { JwtService } from 'src/app/services/jwt/jwt.service';
 import { UsersService } from 'src/app/services/users/users.service';
 
@@ -23,6 +24,7 @@ export class GroupSelectComponent implements OnInit {
   constructor(
     private jwtService: JwtService,
     private userService: UsersService,
+    private groupService: GroupsService
     ) { 
     this.user = this.jwtService.getUser();
   }
@@ -32,6 +34,7 @@ export class GroupSelectComponent implements OnInit {
     console.log(this.availableGroups);
     this.buildGroupCreateForm();
     this.buildGroupSelectForm();
+    console.log(this.user)
   }
 
   // registrationForm = this.formBuilder.group({
@@ -57,6 +60,9 @@ export class GroupSelectComponent implements OnInit {
   createGroup() {
     const groupName: string = this.groupCreateForm.controls['groupName'].value;
     const group = { name: groupName, createdBy: this.user.username, ownedBy: this.user.username } as PairingGroup;
+    this.groupService.postGroup(group).subscribe(response => {
+      console.log(response);
+    });
   }
 
   joinGroup(user: Account) {
