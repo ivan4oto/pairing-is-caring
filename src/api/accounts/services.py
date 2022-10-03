@@ -5,11 +5,6 @@ from main.models import PairingGroup, PairingSession
 from common.services import model_update
 
 def account_update(*, account, data):
-    pairing_session = get_object(PairingSession, pk = data.get('id'))
-    pairing_group = get_object(PairingGroup, pk = data.get('id'))
-    data['pairing_session'] = pairing_session if pairing_session else PairingSession(**data.get('pairing_session'))
-    print(data)
-    data['pairing_group'] = pairing_group if pairing_group else PairingGroup(**data.get('pairing_group'))
     fields = ['pairing_session', 'pairing_group', 'is_active']
     account, has_updated = model_update(instance=account, fields=fields, data=data)
     return account

@@ -11,7 +11,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from accounts.utils import inline_serializer, get_object, serialize_account_for_jwt
 from accounts.models import Account
 from accounts.services import account_update, account_create, account_list
-from main.models import PairingSession
+from main.models import PairingGroup, PairingSession
 
 
 class AccountCreateApi(APIView):
@@ -35,22 +35,33 @@ class AccountUpdateApi(APIView):
             'id': serializers.IntegerField()
         })
         pairing_group = inline_serializer(fields={
-            'id': serializers.IntegerField()
+            'id': serializers.IntegerField(),
+            "name": serializers.CharField()
         })
         is_active = serializers.BooleanField()
 
     def post(self, request, account_id):
         request_data = request.data
-        if request_data.get('pairing_session') is None:
+        pairing_session = get_object(
+            PairingSession, pk=request.data.get('pairing_session', {}).get('id')
+            )
+        pairing_group = get_object(
+            PairingGroup, pk=request.data.get('pairing_group', {}).get('id')
+            )
+        print(pairing_session)
+        if pairing_session is None:
             pairing_session = PairingSession()
             pairing_session.save()
             request_data['pairing_session'] = {
                 "id": pairing_session.id,
                 "start_time": pairing_session.start_time
             }
+            print(pairing_session)
         serializer = self.InputSerializer(data=request_data, partial=True)
         serializer.is_valid(raise_exception=True)
         account = get_object(Account, pk=account_id)
+        serializer.validated_data['pairing_session'] = pairing_session
+        serializer.validated_data['pairing_group'] = pairing_group
         account_update(account=account, data=serializer.validated_data)
 
         return Response(status=status.HTTP_200_OK)
@@ -86,13 +97,10 @@ class AccountListApi(APIView):
 
 class AccountDeleteApi(APIView):
     def delete(self, request, account_id, field=None):
-        print(account_id, field)
         account_obj = get_object(Account, pk=account_id)
         if field is None:
             account_obj.delete()
-            print('deleted the whole obj')
         setattr(account_obj, field, None)
-        print('deleted just the field')
         account_obj.save()
 
         return Response(status=status.HTTP_200_OK)
