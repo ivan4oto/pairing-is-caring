@@ -31,10 +31,8 @@ export class GroupSelectComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService.getGroups().subscribe(response => this.availableGroups = response );
-    console.log(this.availableGroups);
     this.buildGroupCreateForm();
     this.buildGroupSelectForm();
-    console.log(this.user)
   }
 
   // registrationForm = this.formBuilder.group({
@@ -65,12 +63,17 @@ export class GroupSelectComponent implements OnInit {
     });
   }
 
-  joinGroup(user: Account) {
-    const groupName: string = this.groupCreateForm.controls['groupName'].value;
-    const group: PairingGroup = { name: groupName, createdBy: user.username, ownedBy: user.username };
-    const userForUpdate = user as AccountOutputSerializer;
-    userForUpdate.pairing_group = group;
-    this.userService.updateUser(user).subscribe((response) => {
+  joinGroup() {
+    console.log(this.groupSelectForm)
+    console.log(this.groupSelectForm.value)
+    const groupName: string = this.groupSelectForm.controls['groupName'].value;
+    const group: PairingGroup = {
+      name: groupName,
+      createdBy: this.user.username,
+      ownedBy: this.user.username
+    };
+    this.user.pairing_group = group;
+    this.userService.updateUser(this.user).subscribe((response) => {
       console.log(response);
     })
   }
@@ -83,11 +86,7 @@ export class GroupSelectComponent implements OnInit {
 
   public buildGroupSelectForm() {
     this.groupSelectForm = new FormGroup({
-      groupName: new FormControl('', [Validators.required]),
+      groupSelectedName: new FormControl('', [Validators.required]),
     });
-  }
-
-  public submitGroup() {
-    throw new Error('Method not implemented.');
   }
 }
