@@ -64,9 +64,7 @@ export class GroupSelectComponent implements OnInit {
   }
 
   joinGroup() {
-    console.log(this.groupSelectForm)
-    console.log(this.groupSelectForm.value)
-    const groupName: string = this.groupSelectForm.controls['groupName'].value;
+    const groupName: string = this.groupSelectForm.value.groupSelectedName
     const group: PairingGroup = {
       name: groupName,
       createdBy: this.user.username,

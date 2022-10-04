@@ -3,20 +3,19 @@
 <div style="text-align: center;">
   
   <form class="form-container" [formGroup]="groupCreateForm" (ngSubmit)="createGroup()">
-      <mat-form-field appearance="fill">
-        <mat-label>group name</mat-label>
-        <input matInput formControlName="groupName" />
-      </mat-form-field>  
-      <button type="submit" mat-raised-button>Create</button>
-    </form>
+    <mat-form-field appearance="fill">
+      <mat-label>group name</mat-label>
+      <input matInput formControlName="groupName" />
+    </mat-form-field>  
+    <button type="submit" mat-raised-button>Create</button>
+  </form>
   
-    
-  <h4>Basic mat-select</h4>
+
   
   <form class="form-container" [formGroup]="groupSelectForm" (ngSubmit)="joinGroup()">
     <mat-form-field appearance="fill">
       <mat-label>Choose a group</mat-label>
-      <mat-select>
+      <mat-select formControlName="groupSelectedName">
         <mat-option *ngFor="let group of availableGroups" [value]="group.name">
           {{group.name}}
         </mat-option>
