@@ -1,5 +1,4 @@
 from datetime import datetime
-from wsgiref import validate
 from django.conf import settings
 from django.core import serializers as core_serializer
 
@@ -11,8 +10,9 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from accounts.utils import inline_serializer, get_object, serialize_account_for_jwt
 from accounts.models import Account
-from accounts.services import account_update, account_create, account_list
-from main.models import PairingGroup, PairingSession
+from accounts.serializers import AccountUpdateSerializer
+from accounts.services import account_create, account_list
+from main.models import PairingSession
 
 
 class AccountCreateApi(APIView):
@@ -29,72 +29,16 @@ class AccountCreateApi(APIView):
         account_create(**serializer.validated_data, pairing_session=pairing_session)
         return Response(status=status.HTTP_201_CREATED)
 
-class PairingGroupSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PairingGroup
-        fields = ['id', 'name', 'createdBy', 'ownedBy']
-        extra_kwargs = {
-            "id": {
-                "read_only": False,
-                "required": False,
-            }
-        }
-
-class PairingSessionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PairingSession
-        fields = ['id']
-        extra_kwargs = {
-            "id": {
-                "read_only": False,
-                "required": False,
-            }
-        }
-
-class AccountSerializer(serializers.ModelSerializer):
-    pairing_session = PairingSessionSerializer()
-    pairing_group = PairingGroupSerializer()
-    
-    class Meta:
-        model = Account
-        fields = ['id', 'is_active', 'pairing_session', 'pairing_group']
- 
-    def update(self, instance, validated_data):
-        session_data = validated_data.get('pairing_session', {})
-        session = get_object(PairingSession, default_object=instance.pairing_session, pk=session_data.get('id'))    
-        print(validated_data)
-        print(session.id)
-        group_data = validated_data.get('pairing_group', {})
-        group = get_object(PairingGroup, default_object=instance.pairing_group, pk=group_data.get('id')) 
-        
-        instance.pairing_session = session
-        instance.pairing_group = group
-        instance.is_active = validated_data.get('is_active', instance.is_active)
-        instance.save()
-        return instance
-
 
 
 class AccountUpdateApi(APIView):
-    # class InputSerializer(serializers.Serializer):
-    #     pairing_session = inline_serializer(fields={
-    #         'id': serializers.IntegerField()
-    #     })
-    #     pairing_group = inline_serializer(fields={
-    #         'id': serializers.IntegerField()
-    #     }, allow_null=True)
-    #     is_active = serializers.BooleanField()
-
     def post(self, request, account_id):
         account = get_object(Account, pk=account_id)
-        print(request.data)
-        serializer = AccountSerializer(account, data=request.data, partial=True)
+        serializer = AccountUpdateSerializer(account, data=request.data, partial=True)
         
         # import pdb; pdb.set_trace()
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        # account = get_object(Account, pk=account_id)
-        # account_update(account=account, data=serializer.validated_data)
 
         return Response(status=status.HTTP_200_OK)
 
