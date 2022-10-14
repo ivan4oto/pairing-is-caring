@@ -1,7 +1,4 @@
 from accounts.models import Account
-from accounts.utils import get_object
-from main.models import PairingGroup, PairingSession
-
 from common.services import model_update
 
 def account_update(*, account, data):
