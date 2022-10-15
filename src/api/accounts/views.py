@@ -1,6 +1,7 @@
 from datetime import datetime
 from django.conf import settings
 from django.core import serializers as core_serializer
+from django.http import HttpResponse
 
 from rest_framework import status, serializers
 from rest_framework.views import APIView
@@ -39,9 +40,7 @@ class AccountUpdateApi(APIView):
         # import pdb; pdb.set_trace()
         serializer.is_valid(raise_exception=True)
         serializer.save()
-
-        return Response(status=status.HTTP_200_OK)
-
+        return Response(serializer.data)
 
 class AccountListApi(APIView):
     class OutputSerializer(serializers.Serializer):

@@ -21,7 +21,7 @@ export interface Account {
 export interface AccountOutputSerializer {
     id: number;
     pairing_group?: PairingGroup;
-    pairing_session?: PairingSession;
+    pairing_session: PairingSession;
     username: string;
     email: string;
     is_active: boolean;   

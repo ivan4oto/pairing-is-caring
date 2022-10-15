@@ -27,4 +27,9 @@ export class SessionsService {
   public getGroup(): string | null {
     return localStorage.getItem('pairingGroup');
   }
+
+  public createNewSession(startTime: string): Observable<PairingSession> {
+    const url = `${this.baseUrl}/sessions/create/`;
+    return this.httpService.post<PairingSession>(url, { start_time: startTime }); 
+  }
 }

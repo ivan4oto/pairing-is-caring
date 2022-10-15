@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from main.models import PairingGroup, PairingSession
-from main.services import group_create
+from main.services import group_create, session_create
 
 
 class PairingSessionListApi(APIView):
@@ -17,6 +17,22 @@ class PairingSessionListApi(APIView):
 
         return Response(data)
 
+class PairingSessionCreateApi(APIView):
+    class OutputSerializer(serializers.Serializer):
+        id = serializers.CharField()
+        start_time = serializers.DateTimeField()
+
+    class InputSerializer(serializers.Serializer):
+        start_time = serializers.DateTimeField()
+
+    def post(self, request):
+        serializer = self.InputSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        session = session_create(**serializer.validated_data)
+        data = self.OutputSerializer(session, many=False).data
+
+        return Response(data)
 
 class PairingGroupListApi(APIView):
     class OutputSerializer(serializers.Serializer):

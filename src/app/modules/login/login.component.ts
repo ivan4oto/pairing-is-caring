@@ -39,9 +39,6 @@ export class LoginComponent implements OnInit {
     this.usersService
       .loginUser(email, password)
       .subscribe((response) => {
-        console.log(response)
-        console.log(Object(response))
-        console.log(Object(response)['user'])
         const expiresIn = Object(response)['expiresIn'];
         const accessId = Object(response)['access'];
         const userData = Object(response)['user'];

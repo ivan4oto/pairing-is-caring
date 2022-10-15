@@ -17,7 +17,7 @@ class PairingGroupSerializer(serializers.ModelSerializer):
 class PairingSessionSerializer(serializers.ModelSerializer):
     class Meta:
         model = PairingSession
-        fields = ['id']
+        fields = ['id', 'start_time']
         extra_kwargs = {
             "id": {
                 "read_only": False,
