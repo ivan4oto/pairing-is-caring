@@ -1,4 +1,3 @@
-from venv import create
 from rest_framework import serializers
 from accounts.models import Account
 from accounts.utils import get_object
@@ -26,7 +25,7 @@ class AccountUpdateSerializer(serializers.ModelSerializer):
             session = session if session else create_new_session(session_data)
             instance.pairing_session = session 
         elif group_data:
-            group = get_object(PairingGroup, default_object=instance.pairing_group, pk=group_data.get('id')) 
+            group = get_object(PairingGroup, default_object=instance.pairing_group, pk=group_data.get('id'))
             instance.pairing_group = group
         
         instance.is_active = validated_data.get('is_active', instance.is_active)

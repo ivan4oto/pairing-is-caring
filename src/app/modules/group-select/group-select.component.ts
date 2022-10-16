@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { switchMap } from 'rxjs';
-import { Account, AccountOutputSerializer } from 'src/app/models/accounts';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Account } from 'src/app/models/accounts';
 import { PairingGroup } from 'src/app/models/pairing-sessions';
 import { GroupsService } from 'src/app/services/groups/groups.service';
 import { JwtService } from 'src/app/services/jwt/jwt.service';
@@ -35,26 +34,6 @@ export class GroupSelectComponent implements OnInit {
     this.buildGroupSelectForm();
   }
 
-  // registrationForm = this.formBuilder.group({
-  //   groupName: ['', [Validators.required]]
-  // })
-
-  // joinGroup(username: string | null) {
-  //   if (!username) {
-  //     throw new Error('You must be logged in to create new group!')
-  //   }
-  //   const groupName: string = this.groupCreateForm.controls['groupName'].value;
-  //   this.userService.getUser(username).pipe(switchMap((account: Account) => {
-  //     const accountToUpdate = account as AccountOutputSerializer;
-  //     accountToUpdate.pairing_group = groupName;
-  //     return this.userService.updateUser(accountToUpdate);
-  //   })).subscribe(
-  //     (updatedAccount: Account) => {
-  //       console.log(updatedAccount);
-  //     }
-  //   );
-  //   throw new Error('Method not implemented.');
-  // }
   createGroup() {
     const groupName: string = this.groupCreateForm.controls['groupName'].value;
     const group = { name: groupName, createdBy: this.user.username, ownedBy: this.user.username } as PairingGroup;
@@ -64,14 +43,12 @@ export class GroupSelectComponent implements OnInit {
   }
 
   joinGroup() {
-    const groupName: string = this.groupSelectForm.value.groupSelectedName
-    const group: PairingGroup = {
-      name: groupName,
-      createdBy: this.user.username,
-      ownedBy: this.user.username
-    };
-    this.user.pairing_group = group;
+    console.log('joinnniing')
+    const selectedGroup: PairingGroup = this.groupSelectForm.value.groupSelectedName
+    this.user.pairing_group = selectedGroup
     this.userService.updateUser(this.user).subscribe((response) => {
+      this.groupService.setGroup(selectedGroup)
+      console.log('group set')
       console.log(response);
     })
   }

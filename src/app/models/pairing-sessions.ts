@@ -4,7 +4,7 @@ export interface PairingSession {
 }
 
 export interface PairingGroup {
-    id?: number;
+    id: number;
     name: string;
     createdBy: string;
     ownedBy: string;

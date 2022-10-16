@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import * as _ from "lodash";
-import {CdkDragDrop, moveItemInArray, transferArrayItem, CdkDrag, CdkDropList} from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { UsersService } from 'src/app/services/users/users.service';
-import { Account, AccountListResponse, AccountOutputSerializer } from 'src/app/models/accounts';
-import { PairingSession } from 'src/app/models/pairing-sessions';
+import { AccountListResponse, AccountOutputSerializer } from 'src/app/models/accounts';
+import { PairingGroup, PairingSession } from 'src/app/models/pairing-sessions';
 import { SessionsService } from 'src/app/services/sessions/sessions.service';
+import { GroupsService } from 'src/app/services/groups/groups.service';
 
 @Component({
   selector: 'app-paring-table',
@@ -12,16 +13,17 @@ import { SessionsService } from 'src/app/services/sessions/sessions.service';
   styleUrls: ['./paring-table.component.scss']
 })
 export class ParingTableComponent implements OnInit {
-  private currentGroup: string;
+  private currentGroup: PairingGroup | undefined;
   public sessionGroup!: string;
   public allSessions!: PairingSession[];
   public sessions!: Record<number, AccountListResponse[]>
   
   constructor(
     private userService: UsersService,
-    private sessionService: SessionsService
+    private sessionService: SessionsService,
+    private groupsService: GroupsService
   ) {
-    this.currentGroup = this.sessionService.getGroup() || '';
+    this.currentGroup = this.groupsService.getGroup();
   }
 
   ngOnInit(): void {
@@ -36,7 +38,10 @@ export class ParingTableComponent implements OnInit {
   }
 
   private loadAccounts(): void {
-    this.userService.getUsersByGroup(this.currentGroup).subscribe((response: AccountListResponse[]) => {
+    if (!this.currentGroup) {
+      return;
+    }
+    this.userService.getUsersByGroup(this.currentGroup.name).subscribe((response: AccountListResponse[]) => {
       const arrayOfSessions = _.groupBy(response, ({pairing_session: { id }}) => `${id}`)
       this.sessions = arrayOfSessions;
       this.sessions['0'] = [];
