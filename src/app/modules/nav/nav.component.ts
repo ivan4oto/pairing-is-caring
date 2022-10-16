@@ -22,4 +22,8 @@ export class NavComponent implements OnInit {
   public isLoggedOut(): boolean {
     return !this.jwtService.isLoggedIn();
   }
+
+  public isLoggedIn(): boolean {
+    return this.jwtService.isLoggedIn();
+  }
 }

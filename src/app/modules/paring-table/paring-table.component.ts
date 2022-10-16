@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import * as _ from "lodash";
-import {CdkDragDrop, moveItemInArray, transferArrayItem, CdkDrag, CdkDropList} from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { UsersService } from 'src/app/services/users/users.service';
-import { Account, AccountListResponse, AccountOutputSerializer } from 'src/app/models/accounts';
-import { PairingSession } from 'src/app/models/pairing-sessions';
+import { AccountListResponse, AccountOutputSerializer } from 'src/app/models/accounts';
+import { PairingGroup, PairingSession } from 'src/app/models/pairing-sessions';
 import { SessionsService } from 'src/app/services/sessions/sessions.service';
+import { GroupsService } from 'src/app/services/groups/groups.service';
 
 @Component({
   selector: 'app-paring-table',
@@ -12,33 +13,39 @@ import { SessionsService } from 'src/app/services/sessions/sessions.service';
   styleUrls: ['./paring-table.component.scss']
 })
 export class ParingTableComponent implements OnInit {
-  public allUsers!: any[];
+  private currentGroup: PairingGroup | undefined;
+  public sessionGroup!: string;
   public allSessions!: PairingSession[];
-  // public unpair
   public sessions!: Record<number, AccountListResponse[]>
   
   constructor(
     private userService: UsersService,
-    private sessionService: SessionsService
+    private sessionService: SessionsService,
+    private groupsService: GroupsService
   ) {
+    this.currentGroup = this.groupsService.getGroup();
   }
 
   ngOnInit(): void {
-    this.loadSessions();
-
-
-    this.userService.getUsers().subscribe((response: AccountListResponse[]) => {
-      const arrayOfSessions = _.groupBy(response, ({pairing_session: { id }}) => `${id}`)
-      this.sessions = arrayOfSessions;
-      this.sessions['0'] = [];
-      this.allUsers = Object.values(arrayOfSessions)
-    });
+    this.loadJustSessions();
+    this.loadAccounts();
   }
 
-  private loadSessions() {
+  private loadJustSessions(): void {
     this.sessionService.getSessions().subscribe((response: PairingSession[]) => {
       this.allSessions = response;
     })
+  }
+
+  private loadAccounts(): void {
+    if (!this.currentGroup) {
+      return;
+    }
+    this.userService.getUsersByGroup(this.currentGroup.name).subscribe((response: AccountListResponse[]) => {
+      const arrayOfSessions = _.groupBy(response, ({pairing_session: { id }}) => `${id}`)
+      this.sessions = arrayOfSessions;
+      this.sessions['0'] = [];
+    });
   }
 
 
@@ -50,13 +57,27 @@ export class ParingTableComponent implements OnInit {
 
   private updateUser(user: AccountOutputSerializer){
     this.userService.updateUser(user).subscribe((response) => {
-      // console.log(response);
+      console.log('User updated')
+      console.log(response)
     });
   }
 
-  public unpair(event: CdkDragDrop<any>) {
-    console.log('hi')
-    console.log(event);
+  private deleteSessionContainerIfEmpty(id: number) {
+    if (this.sessions[id].length === 0) {
+      delete this.sessions[id] // deletes empty container
+    }
+  }
+
+  public unpair(user: AccountOutputSerializer) {
+    const now = new Date(); // gets current datetime
+    // sends current time to create new Pairing Session, adds it to the user(Account) and updates him in the DB
+    this.sessionService.createNewSession(now.toISOString()).subscribe((response:PairingSession) => {
+      user.pairing_session = response;
+      const id: number = +response.id;
+      this.sessions[id] = [ user as AccountListResponse ];
+      this.sessions[0] = [];
+      this.updateUser(user)
+    });
   }
 
   public drop(event: CdkDragDrop<any>, sessionId: string): void {
@@ -72,25 +93,18 @@ export class ParingTableComponent implements OnInit {
       const droppedUser: AccountOutputSerializer = event.container.data[event.currentIndex];
 
       if (sessionId === '0') {
-        // if user dropped into the empty box a new session is created
-        // and added to the user.pairing_session
-        // const newSession = this.getNewSession();
-        droppedUser.pairing_session = undefined;
-        this.updateUser(droppedUser);
+        this.unpair(droppedUser);
+        this.deleteSessionContainerIfEmpty(+droppedUser.pairing_session.id)
         return;
       }
-
+      this.deleteSessionContainerIfEmpty(+droppedUser.pairing_session.id)
       const newUserSession = this.getSessionById(sessionId)
       if (newUserSession) {
         droppedUser.pairing_session = newUserSession;
-        this.updateUser(droppedUser);
+        this.updateUser(droppedUser); // adds the new pairing session to the Account & updated DB
       }
       event.container.data[event.currentIndex].pairing_session.id = sessionId
     }
-  }
-
-  getNewSession(): PairingSession {
-    throw new Error('Method not implemented.');
   }
 }
 

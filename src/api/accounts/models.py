@@ -5,7 +5,7 @@ from django.contrib.auth.models import (
     BaseUserManager,
     PermissionsMixin
 )
-from main.models import PairingSession
+from main.models import PairingGroup, PairingSession
 
 class CustomAccountManager(BaseUserManager):
     def create_user(self, email, username, password=None):
@@ -39,7 +39,8 @@ class Account(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(verbose_name="email", max_length=60, unique=True)
     username = models.CharField(max_length=50, unique=True)
     pairing_since = models.DateTimeField(verbose_name="paring since", null=True, blank=True)
-    pairing_session = models.ForeignKey(PairingSession, on_delete=models.CASCADE, null=True)
+    pairing_session = models.ForeignKey(PairingSession, null=True, blank=True, on_delete=models.SET_NULL)
+    pairing_group = models.ForeignKey(PairingGroup, null=True, blank=True, on_delete=models.SET_NULL)
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)

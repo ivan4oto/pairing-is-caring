@@ -19,4 +19,17 @@ export class SessionsService {
     const url = `${this.baseUrl}/sessions/list/`;
     return this.httpService.get<PairingSession[]>(url);
   }
+
+  public setGroup(groupName: string): void {
+    localStorage.setItem("pairingGroup", groupName)
+  }
+
+  public getGroup(): string | null {
+    return localStorage.getItem('pairingGroup');
+  }
+
+  public createNewSession(startTime: string): Observable<PairingSession> {
+    const url = `${this.baseUrl}/sessions/create/`;
+    return this.httpService.post<PairingSession>(url, { start_time: startTime }); 
+  }
 }

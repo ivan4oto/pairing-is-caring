@@ -11,10 +11,12 @@ import { HomeComponent } from './modules/home/home.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import {MatSelectModule} from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ParingTableComponent } from './modules/paring-table/paring-table.component';
 import { DragDropModule} from '@angular/cdk/drag-drop';
+import { GroupSelectComponent } from './modules/group-select/group-select.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,7 @@ import { DragDropModule} from '@angular/cdk/drag-drop';
     RegisterComponent,
     HomeComponent,
     ParingTableComponent,
+    GroupSelectComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,6 +35,7 @@ import { DragDropModule} from '@angular/cdk/drag-drop';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSelectModule, 
     ReactiveFormsModule,
     HttpClientModule,
     DragDropModule
