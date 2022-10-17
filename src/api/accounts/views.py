@@ -1,7 +1,6 @@
 from datetime import datetime
 from django.conf import settings
 from django.core import serializers as core_serializer
-from django.http import HttpResponse
 
 from rest_framework import status, serializers
 from rest_framework.views import APIView
@@ -9,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-from accounts.utils import inline_serializer, get_object, serialize_account_for_jwt
+from accounts.utils import inline_serializer, get_object
 from accounts.models import Account
 from accounts.serializers import AccountUpdateSerializer
 from accounts.services import account_create, account_list
@@ -91,9 +90,8 @@ class MyTokenObtainPairView(TokenObtainPairView):
             data['access'] = str(refresh.access_token)
 
             # Add extra responses here
-            data['user'] = serialize_account_for_jwt(self.user, include_fields=[
-                'id', 'username', 'email', 'pairing_group'
-            ])
+            user_data = AccountListApi.OutputSerializer(self.user).data
+            data['user'] = user_data
             data['formats'] = core_serializer.get_serializer_formats()
             data['expiresIn'] = settings.SIMPLE_JWT.get('ACCESS_TOKEN_LIFETIME') + datetime.now()
             return data

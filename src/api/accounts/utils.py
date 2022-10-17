@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.shortcuts import get_object_or_404
 from django.http import Http404
+from django.forms.models import model_to_dict
 
 
 def create_serializer_class(name, fields):
@@ -23,9 +24,3 @@ def get_object(model_or_queryset, default_object=None, **kwargs):
         return get_object_or_404(model_or_queryset, **kwargs)
     except Http404:
         return default_object
-
-def serialize_account_for_jwt(user, include_fields=None):
-    serialized_result = {}
-    for field in include_fields:
-        serialized_result[field] = str(getattr(user, field))
-    return serialized_result
