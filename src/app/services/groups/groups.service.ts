@@ -4,13 +4,17 @@ import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { Account } from 'src/app/models/accounts';
 import { PairingGroup } from 'src/app/models/pairing-sessions';
+import { LocalStorageService } from '../local-storage/local-storage.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GroupsService {
 
-  constructor(private httpService: HttpClient) {}
+  constructor(
+    private httpService: HttpClient,
+    private localStorageService: LocalStorageService
+    ) {}
   private baseUrl = 'http://127.0.0.1:8000';
 
 
@@ -26,11 +30,15 @@ export class GroupsService {
 
     
   public setGroup(group: PairingGroup): void {
-    localStorage.setItem('pairingGroup', JSON.stringify(group))
+    this.localStorageService.setGroup(JSON.stringify(group))
+  }
+
+  public removeGroup(): void {
+    this.localStorageService.removeGroup();
   }
 
   public getGroup(): PairingGroup | undefined {
-    const jsonGroup = localStorage.getItem('pairingGroup');
+    const jsonGroup = this.localStorageService.getGroup();
     if (jsonGroup){
       return JSON.parse(jsonGroup) as PairingGroup;
     }

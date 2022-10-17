@@ -1,15 +1,20 @@
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
 import { Account } from 'src/app/models/accounts';
+import { LocalStorageService } from '../local-storage/local-storage.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class JwtService {
-  public storeJwtToken(idToken: string, expiresIn: string, userData: string) {
-    localStorage.setItem('id_token', idToken);
-    localStorage.setItem('expires_at', expiresIn);
-    localStorage.setItem('user', JSON.stringify(userData))
+  constructor(
+    private localStorageService: LocalStorageService
+  ) {}
+
+  public storeJwtToken(tokenId: string, expiration: string, userData: string) {
+    this.localStorageService.setTokenId(tokenId);
+    this.localStorageService.setTokenExpiration(expiration);
+    this.localStorageService.setUserString(userData);
   }
 
   getUser(): Account {
@@ -27,7 +32,7 @@ export class JwtService {
   }  
 
   public logout() {
-    localStorage.removeItem("id_token");
-    localStorage.removeItem("expires_at");
+    this.localStorageService.removeTokenId;
+    this.localStorageService.removeTokenExpiration;
   }
 }

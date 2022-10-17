@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GroupsService } from 'src/app/services/groups/groups.service';
 import { JwtService } from 'src/app/services/jwt/jwt.service';
 
 @Component({
@@ -8,7 +9,8 @@ import { JwtService } from 'src/app/services/jwt/jwt.service';
 })
 export class NavComponent implements OnInit {
   constructor(
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    private groupService: GroupsService
   ) {
   }
 
@@ -17,6 +19,7 @@ export class NavComponent implements OnInit {
 
   public logout(): void {
     this.jwtService.logout();
+    this.groupService.removeGroup();
   }
 
   public isLoggedOut(): boolean {
