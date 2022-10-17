@@ -3,13 +3,17 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Account, AccountListResponse, AccountOutputSerializer } from 'src/app/models/accounts';
 import { PairingGroup } from 'src/app/models/pairing-sessions';
+import { LocalStorageService } from '../local-storage/local-storage.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsersService {
   private baseUrl = 'http://127.0.0.1:8000';
-  constructor(private httpService: HttpClient) {}
+  constructor(
+    private httpService: HttpClient,
+    private localStorageService: LocalStorageService
+    ) {}
   
   public postUser(username: string, email: string, password: string) {
     const url = `${this.baseUrl}/accounts/create/`;
@@ -58,5 +62,10 @@ export class UsersService {
   public postGroup(group: PairingGroup) {
     const url = `${this.baseUrl}/groups/create/`;
     return this.httpService.post(url, group);
+  }
+
+  public getActiveUser(): Account {
+    const jsonUser = this.localStorageService.getUserString();
+    return JSON.parse(jsonUser) as Account;
   }
 }

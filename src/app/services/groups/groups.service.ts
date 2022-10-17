@@ -44,5 +44,9 @@ export class GroupsService {
     }
     return undefined;
   }
+
+  public isGroupSet(): boolean {
+    return this.localStorageService.getGroup() !== null;
+  }
   
 }

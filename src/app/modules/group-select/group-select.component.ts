@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Account } from 'src/app/models/accounts';
 import { PairingGroup } from 'src/app/models/pairing-sessions';
 import { GroupsService } from 'src/app/services/groups/groups.service';
@@ -23,7 +24,8 @@ export class GroupSelectComponent implements OnInit {
   constructor(
     private jwtService: JwtService,
     private userService: UsersService,
-    private groupService: GroupsService
+    private groupService: GroupsService,
+    private router: Router,
     ) { 
     this.user = this.jwtService.getUser();
   }
@@ -48,8 +50,7 @@ export class GroupSelectComponent implements OnInit {
     this.user.pairing_group = selectedGroup
     this.userService.updateUser(this.user).subscribe((response) => {
       this.groupService.setGroup(selectedGroup)
-      console.log('group set')
-      console.log(response);
+      this.router.navigate(['home'])
     })
   }
 

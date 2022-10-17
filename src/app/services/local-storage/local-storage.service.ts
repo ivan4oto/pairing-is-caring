@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Account } from 'src/app/models/accounts';
 
 
 @Injectable({
@@ -40,7 +41,7 @@ export class LocalStorageService {
     localStorage.removeItem('expires_at');
   }
 
-  public setUserString(user: string): void {
+  public setUser(user: Account): void {
     localStorage.setItem('user', JSON.stringify(user));
   }
 
@@ -51,8 +52,4 @@ export class LocalStorageService {
   public getUserString(): string {
     return localStorage.getItem('user') as string;
   }
-
-
-
-
 }

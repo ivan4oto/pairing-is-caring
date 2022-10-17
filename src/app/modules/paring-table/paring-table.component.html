@@ -1,18 +1,26 @@
-<div class="example-container">
-  <div cdkDropListGroup>
-    <div
-      *ngFor="let item of sessions | keyvalue;"
-      style="margin: 10px;"
-      cdkDropListOrientation="horizontal"
-      cdkDropList
-      [cdkDropListData]="item.value"
-      class="example-list"
-      (cdkDropListDropped)="drop($event, item.key)">
-      <ng-container *ngIf="item.value.length > 0">
-        <div class="example-box" *ngFor="let dude of item.value" cdkDrag>{{dude.username}} --> {{dude.email}}</div>
-      </ng-container>
-      <ng-container *ngIf="item.value.length === 0">
-      </ng-container> 
+
+<div *ngIf="isGroupActive()">
+  <div class="example-container">
+    <div cdkDropListGroup>
+      <div
+        *ngFor="let item of sessions | keyvalue;"
+        style="margin: 10px;"
+        cdkDropListOrientation="horizontal"
+        cdkDropList
+        [cdkDropListData]="item.value"
+        class="example-list"
+        (cdkDropListDropped)="drop($event, item.key)">
+        <ng-container *ngIf="item.value.length > 0">
+          <div class="example-box" *ngFor="let dude of item.value" cdkDrag>{{dude.username}} --> {{dude.email}}</div>
+        </ng-container>
+        <ng-container *ngIf="item.value.length === 0">
+        </ng-container> 
+      </div>
     </div>
   </div>
+
+  <button mat-raised-button color="warn" (click)="exitGroup()">Leave Group</button>
+</div>
+<div *ngIf="!isGroupActive()">
+  <h3>You must be in a group to see this dashboard</h3>
 </div>

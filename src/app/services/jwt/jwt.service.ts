@@ -11,10 +11,10 @@ export class JwtService {
     private localStorageService: LocalStorageService
   ) {}
 
-  public storeJwtToken(tokenId: string, expiration: string, userData: string) {
+  public storeJwtToken(tokenId: string, expiration: string, userData: Account) {
     this.localStorageService.setTokenId(tokenId);
     this.localStorageService.setTokenExpiration(expiration);
-    this.localStorageService.setUserString(userData);
+    this.localStorageService.setUser(userData);
   }
 
   getUser(): Account {
@@ -34,5 +34,6 @@ export class JwtService {
   public logout() {
     this.localStorageService.removeTokenId();
     this.localStorageService.removeTokenExpiration();
+    this.localStorageService.removeUserString();
   }
 }

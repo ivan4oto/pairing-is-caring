@@ -6,6 +6,9 @@ import { AccountListResponse, AccountOutputSerializer } from 'src/app/models/acc
 import { PairingGroup, PairingSession } from 'src/app/models/pairing-sessions';
 import { SessionsService } from 'src/app/services/sessions/sessions.service';
 import { GroupsService } from 'src/app/services/groups/groups.service';
+import { JwtService } from 'src/app/services/jwt/jwt.service';
+import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-paring-table',
@@ -21,7 +24,10 @@ export class ParingTableComponent implements OnInit {
   constructor(
     private userService: UsersService,
     private sessionService: SessionsService,
-    private groupsService: GroupsService
+    private groupsService: GroupsService,
+    private jwtService: JwtService,
+    private localStorageService: LocalStorageService,
+    private router: Router
   ) {
     this.currentGroup = this.groupsService.getGroup();
   }
@@ -106,12 +112,19 @@ export class ParingTableComponent implements OnInit {
       event.container.data[event.currentIndex].pairing_session.id = sessionId
     }
   }
+
+  public exitGroup(): void{
+    this.groupsService.removeGroup();
+    const user = this.jwtService.getUser();
+    user.pairing_group = undefined;
+    this.userService.updateUser(user).subscribe(response => {
+      this.localStorageService.setUser(response);
+      this.router.navigate(['groups'])
+    })
+  }
+
+  public isGroupActive(): boolean {
+    return this.groupsService.isGroupSet()
+  }
+
 }
-
-
-// We should constantly have an empty droplist container at the bottom and when we drop
-// a box we should send the Account for update to the backend with empty pairing_session property
-// then the backend should create a new one and add it to the account then return it back.
-
-
-// check if we can use one single model Account | AccountListResponse   ? ? ? ?
