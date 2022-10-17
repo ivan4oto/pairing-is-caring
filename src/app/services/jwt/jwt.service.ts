@@ -18,7 +18,7 @@ export class JwtService {
   }
 
   getUser(): Account {
-    const jsonUser = localStorage.getItem('user') || '';
+    const jsonUser = this.localStorageService.getUserString();
     return JSON.parse(jsonUser) as Account;
   }
   
@@ -27,12 +27,12 @@ export class JwtService {
   }
   
   private getExpiration() {
-    const expiration = localStorage.getItem("expires_at") as string;
+    const expiration = this.localStorageService.getTokenExpiration();
     return moment(expiration);
   }  
 
   public logout() {
-    this.localStorageService.removeTokenId;
-    this.localStorageService.removeTokenExpiration;
+    this.localStorageService.removeTokenId();
+    this.localStorageService.removeTokenExpiration();
   }
 }
