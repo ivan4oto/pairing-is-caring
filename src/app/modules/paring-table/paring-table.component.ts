@@ -33,8 +33,10 @@ export class ParingTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadJustSessions();
-    this.loadAccounts();
+    if (this.jwtService.isLoggedIn()) {
+      this.loadJustSessions();
+      this.loadAccounts();
+    }
   }
 
   private loadJustSessions(): void {
