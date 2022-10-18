@@ -17,6 +17,7 @@ class AccountUpdateSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         session_data = validated_data.get('pairing_session', {})
         group_data = validated_data.get('pairing_group', {})
+        # import pdb; pdb.set_trace()
         if session_data:
             session = get_object(PairingSession, pk=session_data.get('id'))
             # If no session found with the id given in the request,
@@ -24,7 +25,7 @@ class AccountUpdateSerializer(serializers.ModelSerializer):
             # with the parameters given in the request
             session = session if session else create_new_session(session_data)
             instance.pairing_session = session 
-        elif group_data:
+        if group_data:
             group = get_object(PairingGroup, default_object=instance.pairing_group, pk=group_data.get('id'))
             instance.pairing_group = group
         
