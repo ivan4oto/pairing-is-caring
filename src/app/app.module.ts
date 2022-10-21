@@ -11,6 +11,7 @@ import { HomeComponent } from './modules/home/home.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon'
 import {MatSelectModule} from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -37,7 +38,8 @@ import { ProfilePageComponent } from './modules/profile-page/profile-page.compon
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule, 
+    MatSelectModule,
+    MatIconModule, 
     ReactiveFormsModule,
     HttpClientModule,
     DragDropModule

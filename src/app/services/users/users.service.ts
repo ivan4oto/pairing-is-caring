@@ -68,4 +68,9 @@ export class UsersService {
     const jsonUser = this.localStorageService.getUserString();
     return JSON.parse(jsonUser) as Account;
   }
+
+  public postFileData(name: string, type: string) {
+    const url = `${this.baseUrl}/api/upload/start/`;
+    return this.httpService.post(url, {file_name: name, file_type: type});
+  }
 }
