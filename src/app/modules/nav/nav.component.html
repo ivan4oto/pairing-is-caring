@@ -9,6 +9,6 @@
     <button mat-raised-button *ngIf="isLoggedOut()" routerLink="login">Login</button>
     <button mat-raised-button *ngIf="isLoggedOut()" routerLink="register">Register</button>
     <button mat-raised-button *ngIf="!isLoggedOut()" (click)="logout()">Log Out</button>
-    <h4 *ngIf="!isLoggedOut()" style="background-color: white">{{ getUserName() }}</h4>
+    <button *ngIf="!isLoggedOut()" style="background-color: white" (click)="openProfilePage()">{{ getUserName() }}</button>
   </div>
 </header>

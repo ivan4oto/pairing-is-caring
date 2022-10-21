@@ -28,6 +28,10 @@ export class NavComponent implements OnInit {
     this.router.navigate(['login'])
   }
 
+  public openProfilePage(): void {
+    this.router.navigate(['profile-page'])
+  }
+
   public isLoggedOut(): boolean {
     return !this.jwtService.isLoggedIn();
   }

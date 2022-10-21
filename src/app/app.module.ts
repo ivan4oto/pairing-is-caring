@@ -17,6 +17,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ParingTableComponent } from './modules/paring-table/paring-table.component';
 import { DragDropModule} from '@angular/cdk/drag-drop';
 import { GroupSelectComponent } from './modules/group-select/group-select.component';
+import { ProfilePageComponent } from './modules/profile-page/profile-page.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { GroupSelectComponent } from './modules/group-select/group-select.compon
     HomeComponent,
     ParingTableComponent,
     GroupSelectComponent,
+    ProfilePageComponent,
   ],
   imports: [
     BrowserModule,
