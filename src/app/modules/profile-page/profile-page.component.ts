@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FileUploadService } from 'src/app/services/file-upload/file-upload.service';
 import { UsersService } from 'src/app/services/users/users.service';
 
 @Component({
@@ -9,9 +10,11 @@ import { UsersService } from 'src/app/services/users/users.service';
 export class ProfilePageComponent implements OnInit {
   fileName = '';
   fileType = '';
+  fileToUpload!: File;
 
   constructor(
-    private userService: UsersService
+    private userService: UsersService,
+    private fileUploadService: FileUploadService
   ) { }
 
   ngOnInit(): void {
@@ -22,6 +25,7 @@ export class ProfilePageComponent implements OnInit {
     if (file) {
       this.fileName = file.name;
       this.fileType = file.type;
+      this.fileToUpload = file;
       // const formData = new FormData();
       // formData.append("thumbnail", file);
       // const upload$ = this.http.post("/api/thumbnail-upload", formData);
@@ -29,11 +33,17 @@ export class ProfilePageComponent implements OnInit {
     }
   }
   
-  submitFile(): void {
+  directUploadStart(): void {
     this.userService.postFileData(this.fileName, this.fileType).subscribe(response => {
       console.log(response);
+      this.directUploadDo(response, this.fileToUpload);
     });
-    
+  }
+
+  directUploadDo(data: any, file: File): void {
+    this.fileUploadService.uploadFileToS3(data, file).subscribe(uploadResponse => {
+      console.log(uploadResponse);
+    });
   }
 
 }

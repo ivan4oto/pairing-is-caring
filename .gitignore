@@ -56,3 +56,6 @@ venv.bak/
 
 # Database
 db.*
+
+# Creds
+creds.sh
