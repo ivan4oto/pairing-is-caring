@@ -65,4 +65,8 @@ export class GroupSelectComponent implements OnInit {
       groupSelectedName: new FormControl('', [Validators.required]),
     });
   }
+
+  public isUserLogged(): boolean {
+    return this.jwtService.isLoggedIn();
+  }
 }

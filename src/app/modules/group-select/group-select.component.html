@@ -1,6 +1,4 @@
-<p>group-select works!</p>
-
-<div style="text-align: center;">
+<div style="text-align: center;" *ngIf="isUserLogged()">
   
   <form class="form-container" [formGroup]="groupCreateForm" (ngSubmit)="createGroup()">
     <mat-form-field appearance="fill">
@@ -24,4 +22,8 @@
     <button type="submit" mat-raised-button>Join Group</button>
   </form>
 
+</div>
+
+<div *ngIf="!isUserLogged()">
+<h2>Please log in to choose a group</h2>
 </div>

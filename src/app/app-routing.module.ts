@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { GroupSelectComponent } from './modules/group-select/group-select.component';
 import { HomeComponent } from './modules/home/home.component';
 import { LoginComponent } from './modules/login/login.component';
+import { ProfilePageComponent } from './modules/profile-page/profile-page.component';
 import { RegisterComponent } from './modules/register/register.component';
 
 const routes: Routes = [
@@ -27,6 +28,10 @@ const routes: Routes = [
     path: 'groups',
     component: GroupSelectComponent,
   },
+  {
+    path: 'profile-page',
+    component: ProfilePageComponent
+  }
 ];
 
 @NgModule({

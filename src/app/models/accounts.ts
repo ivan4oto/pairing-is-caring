@@ -1,3 +1,4 @@
+import { FileImage } from "./fileUpload";
 import { PairingGroup, PairingSession } from "./pairing-sessions";
 
 export interface AccountListResponse {
@@ -15,7 +16,8 @@ export interface Account {
     pairing_group?: PairingGroup;
     username: string;
     email: string;
-    is_active: boolean;   
+    is_active: boolean;
+    profile_image: FileImage; 
 }
 
 export interface AccountOutputSerializer {

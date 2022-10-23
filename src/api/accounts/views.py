@@ -53,10 +53,15 @@ class AccountListApi(APIView):
             'createdBy': serializers.CharField(),
             'ownedBy': serializers.CharField()
         })
+        profile_image = inline_serializer(fields={
+            'id': serializers.IntegerField(),
+            'file': serializers.FileField()
+        })
         id = serializers.IntegerField()
         is_active = serializers.BooleanField()
         email = serializers.CharField()
         username = serializers.CharField()
+
 
     def get(self, request, group_name=None):
         if group_name:
