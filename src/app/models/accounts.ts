@@ -17,7 +17,7 @@ export interface Account {
     username: string;
     email: string;
     is_active: boolean;
-    profile_image?: FileImage; 
+    profile_image: FileImage; 
 }
 
 export interface AccountOutputSerializer {

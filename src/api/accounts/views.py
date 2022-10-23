@@ -53,6 +53,10 @@ class AccountListApi(APIView):
             'createdBy': serializers.CharField(),
             'ownedBy': serializers.CharField()
         })
+        profile_image = inline_serializer(fields={
+            'id': serializers.IntegerField(),
+            'file': serializers.FileField()
+        })
         id = serializers.IntegerField()
         is_active = serializers.BooleanField()
         email = serializers.CharField()

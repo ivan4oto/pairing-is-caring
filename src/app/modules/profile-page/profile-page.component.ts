@@ -13,6 +13,7 @@ import { UsersService } from 'src/app/services/users/users.service';
 export class ProfilePageComponent implements OnInit {
   fileName = '';
   fileType = '';
+  imagePath = '';
   fileToUpload!: File;
   public user: Account;
 
@@ -22,6 +23,7 @@ export class ProfilePageComponent implements OnInit {
     private userService: UsersService
   ) {
     this.user = this.jwtService.getUser();
+    this.imagePath = this.user.profile_image.file;
   }
 
   ngOnInit(): void {
@@ -58,18 +60,16 @@ export class ProfilePageComponent implements OnInit {
   directUploadDo(data: any, file: File): void {
     this.fileUploadService.uploadFileToS3(data, file).subscribe(() => {
       this.directUploadFinish(data).subscribe((fileIdResponse: FileImage) => {
-        console.log(fileIdResponse);
+        this.fileName = fileIdResponse.file;
         this.updateUserProfilePic(fileIdResponse);
       });
     });
   }
 
   updateUserProfilePic(image: FileImage){
-    console.log('User update image lol')
     this.user.profile_image = image;
     this.userService.updateUser(this.user).subscribe(userResponse => {
       console.log(userResponse);
-      console.log('user response up')
     });
   }
 
