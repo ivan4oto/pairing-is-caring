@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Account } from 'src/app/models/accounts';
+import { FileImage } from 'src/app/models/fileUpload';
 import { FileUploadService } from 'src/app/services/file-upload/file-upload.service';
+import { JwtService } from 'src/app/services/jwt/jwt.service';
+import { UsersService } from 'src/app/services/users/users.service';
 
 @Component({
   selector: 'app-profile-page',
@@ -10,10 +14,15 @@ export class ProfilePageComponent implements OnInit {
   fileName = '';
   fileType = '';
   fileToUpload!: File;
+  public user: Account;
 
   constructor(
-    private fileUploadService: FileUploadService
-  ) { }
+    private fileUploadService: FileUploadService,
+    private jwtService: JwtService,
+    private userService: UsersService
+  ) {
+    this.user = this.jwtService.getUser();
+  }
 
   ngOnInit(): void {
   }
@@ -48,7 +57,19 @@ export class ProfilePageComponent implements OnInit {
 
   directUploadDo(data: any, file: File): void {
     this.fileUploadService.uploadFileToS3(data, file).subscribe(() => {
-      this.directUploadFinish(data).subscribe(() => console.log('Upload done!'));
+      this.directUploadFinish(data).subscribe((fileIdResponse: FileImage) => {
+        console.log(fileIdResponse);
+        this.updateUserProfilePic(fileIdResponse);
+      });
+    });
+  }
+
+  updateUserProfilePic(image: FileImage){
+    console.log('User update image lol')
+    this.user.profile_image = image;
+    this.userService.updateUser(this.user).subscribe(userResponse => {
+      console.log(userResponse);
+      console.log('user response up')
     });
   }
 

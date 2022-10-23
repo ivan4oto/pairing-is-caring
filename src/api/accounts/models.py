@@ -6,6 +6,7 @@ from django.contrib.auth.models import (
     PermissionsMixin
 )
 from main.models import PairingGroup, PairingSession
+from fileupload.models import File
 
 class CustomAccountManager(BaseUserManager):
     def create_user(self, email, username, password=None):
@@ -45,7 +46,7 @@ class Account(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
-    profile_image = models.ImageField(max_length=255, upload_to=None, blank=True, default="")
+    profile_image = models.ForeignKey(File, null=True, blank=True, on_delete=models.SET_NULL)
 
     objects = CustomAccountManager()
 

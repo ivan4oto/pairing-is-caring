@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { FileImage } from 'src/app/models/fileUpload';
 
 
 @Injectable({
@@ -29,8 +30,8 @@ export class FileUploadService {
   }
 
 
-  public finishUpload(data: any) {
+  public finishUpload(data: any): Observable<FileImage> {
     const url = `${this.baseUrl}/api/upload/finish/`;
-    return this.httpService.post(url, { file_id: data})
+    return this.httpService.post<FileImage>(url, { file_id: data})
   }
 }

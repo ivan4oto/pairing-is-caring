@@ -35,7 +35,7 @@ def s3_generate_presigned_post(*, file_path: str, file_type: str):
     expires_in = settings.AWS_PRESIGNED_EXPIRY
 
     presigned_data = s3_client.generate_presigned_post(
-        settings.AWS_S3_BUCKET_NAME,
+        settings.AWS_STORAGE_BUCKET_NAME,
         file_path,
         Fields={
             "acl": acl,

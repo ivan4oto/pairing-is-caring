@@ -58,6 +58,7 @@ class AccountListApi(APIView):
         email = serializers.CharField()
         username = serializers.CharField()
 
+
     def get(self, request, group_name=None):
         if group_name:
             accounts = account_list(group_name=group_name) # reduce the admins/superusers
