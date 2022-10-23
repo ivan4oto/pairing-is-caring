@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FileUploadService } from 'src/app/services/file-upload/file-upload.service';
-import { UsersService } from 'src/app/services/users/users.service';
 
 @Component({
   selector: 'app-profile-page',
@@ -13,7 +12,6 @@ export class ProfilePageComponent implements OnInit {
   fileToUpload!: File;
 
   constructor(
-    private userService: UsersService,
     private fileUploadService: FileUploadService
   ) { }
 
@@ -34,15 +32,23 @@ export class ProfilePageComponent implements OnInit {
   }
   
   directUploadStart(): void {
-    this.userService.postFileData(this.fileName, this.fileType).subscribe(response => {
-      console.log(response);
-      this.directUploadDo(response, this.fileToUpload);
-    });
+    if (this.fileToUpload) {
+      this.fileUploadService.startUpload(this.fileName, this.fileType).subscribe(response => {
+        console.log(response);
+        this.directUploadDo(response, this.fileToUpload);
+      });
+    } else {
+      console.log('You need to select a file!')
+    }
+
+  }
+  directUploadFinish(data: any) {
+    return this.fileUploadService.finishUpload(data.id);
   }
 
   directUploadDo(data: any, file: File): void {
-    this.fileUploadService.uploadFileToS3(data, file).subscribe(uploadResponse => {
-      console.log(uploadResponse);
+    this.fileUploadService.uploadFileToS3(data, file).subscribe(() => {
+      this.directUploadFinish(data).subscribe(() => console.log('Upload done!'));
     });
   }
 

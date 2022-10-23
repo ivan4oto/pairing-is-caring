@@ -22,4 +22,15 @@ export class FileUploadService {
     formData.append('file', file, file.name);
     return this.httpService.post(data.url, formData, postParams);
   }
+
+  public startUpload(name: string, type: string) {
+    const url = `${this.baseUrl}/api/upload/start/`;
+    return this.httpService.post(url, {file_name: name, file_type: type});
+  }
+
+
+  public finishUpload(data: any) {
+    const url = `${this.baseUrl}/api/upload/finish/`;
+    return this.httpService.post(url, { file_id: data})
+  }
 }

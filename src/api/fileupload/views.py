@@ -41,7 +41,7 @@ class FileDirectUploadFinishApi(APIView):
 
         file = get_object_or_404(File, id=file_id)
 
-        service = FileDirectUploadService(request.user)
+        service = FileDirectUploadService()
         service.finish(file=file)
 
         return Response({"id": file.id})
@@ -53,7 +53,7 @@ class FileDirectUploadLocalApi(APIView):
 
         file_obj = request.FILES["file"]
 
-        service = FileDirectUploadService(request.user)
+        service = FileDirectUploadService()
         file = service.upload_local(file=file, file_obj=file_obj)
 
         return Response({"id": file.id})
