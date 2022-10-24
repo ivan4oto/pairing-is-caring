@@ -20,7 +20,7 @@ def file_generate_name(original_file_name):
 
 def file_generate_local_upload_url(*, file_id: str):
     url = reverse(
-        "api:files:upload:direct:local",
+        "fileupload:local",
         kwargs={"file_id": file_id}
     )
 

@@ -53,8 +53,8 @@ export class ProfilePageComponent implements OnInit {
     } else {
       console.log('You need to select a file!')
     }
-
   }
+
   directUploadFinish(data: any) {
     return this.fileUploadService.finishUpload(data.id);
   }
@@ -71,6 +71,8 @@ export class ProfilePageComponent implements OnInit {
   updateUserProfilePic(image: FileImage){
     this.user.profile_image = image;
     this.userService.updateUser(this.user).subscribe(userResponse => {
+      // TODO: update user in the localstorage aswell cuz otherwise you need to relog.
+      // Actually update of the localstorage should be done automatically when we use the updateUser service
       console.log(userResponse);
     });
   }

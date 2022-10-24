@@ -5,6 +5,8 @@ from fileupload.views import (
     FileDirectUploadStartApi
 )
 
+app_name = 'fileupload'
+
 
 urlpatterns = [
     path('start/', FileDirectUploadStartApi.as_view(), name='start'),
