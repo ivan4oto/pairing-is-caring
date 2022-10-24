@@ -153,10 +153,7 @@ SIMPLE_JWT = {
 }
 
 
-
-
-# FILE_UPLOAD_STORAGE = env("FILE_UPLOAD_STORAGE", default="local")  # local | s3
-FILE_UPLOAD_STORAGE = 's3'
+FILE_UPLOAD_STORAGE = env("FILE_UPLOAD_STORAGE", default="local")  # local | s3
 
 if FILE_UPLOAD_STORAGE == "local":
     MEDIA_ROOT_NAME = "media"

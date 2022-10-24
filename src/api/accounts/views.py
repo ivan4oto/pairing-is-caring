@@ -30,16 +30,14 @@ class AccountCreateApi(APIView):
         return Response(status=status.HTTP_201_CREATED)
 
 
-
 class AccountUpdateApi(APIView):
     def post(self, request, account_id):
         account = get_object(Account, pk=account_id)
         serializer = AccountUpdateSerializer(account, data=request.data, partial=True)
-        
-        # import pdb; pdb.set_trace()
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
+
 
 class AccountListApi(APIView):
     class OutputSerializer(serializers.Serializer):
@@ -62,7 +60,6 @@ class AccountListApi(APIView):
         email = serializers.CharField()
         username = serializers.CharField()
 
-
     def get(self, request, group_name=None):
         if group_name:
             accounts = account_list(group_name=group_name) # reduce the admins/superusers
@@ -70,8 +67,6 @@ class AccountListApi(APIView):
             accounts = account_list() # reduce the admins/superusers
         data = self.OutputSerializer(accounts, many=True).data
         return Response(data)
-
-
 
 
 class AccountDeleteApi(APIView):
@@ -82,8 +77,6 @@ class AccountDeleteApi(APIView):
         setattr(account_obj, field, None)
         account_obj.save()
         return Response(status=status.HTTP_200_OK)
-
-
 
 
 class MyTokenObtainPairView(TokenObtainPairView):

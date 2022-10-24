@@ -23,7 +23,9 @@ export class ProfilePageComponent implements OnInit {
     private userService: UsersService
   ) {
     this.user = this.jwtService.getUser();
-    this.imagePath = this.user.profile_image.file;
+    if (this.user.profile_image) {
+      this.imagePath = this.user.profile_image.file;
+    }
   }
 
   ngOnInit(): void {
