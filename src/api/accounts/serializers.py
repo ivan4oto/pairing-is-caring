@@ -20,7 +20,8 @@ class AccountUpdateSerializer(serializers.ModelSerializer):
             'is_active',
             'pairing_session',
             'pairing_group',
-            'profile_image'
+            'profile_image',
+            'username'
         ]
  
     def update(self, instance, validated_data):
