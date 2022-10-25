@@ -7,7 +7,8 @@ export interface AccountListResponse {
     pairing_group?: string;
     username: string;
     email: string;
-    is_active: boolean;    
+    is_active: boolean; 
+    profile_image: FileImage;    
 }
 
 export interface Account {
