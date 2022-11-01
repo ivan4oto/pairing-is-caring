@@ -1,6 +1,7 @@
-<div style="text-align: center;" *ngIf="isUserLogged()">
-  
-  <form class="form-container" [formGroup]="groupCreateForm" (ngSubmit)="createGroup()">
+
+<div class="container mt-4" *ngIf="isUserLogged()">
+<h1>Groups</h1>  
+  <form class="form-container mb-3" [formGroup]="groupCreateForm" (ngSubmit)="createGroup()">
     <mat-form-field appearance="fill">
       <mat-label>group name</mat-label>
       <input matInput formControlName="groupName" />

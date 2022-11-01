@@ -9,6 +9,7 @@ import { GroupsService } from 'src/app/services/groups/groups.service';
 import { JwtService } from 'src/app/services/jwt/jwt.service';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { Router } from '@angular/router';
+import { AlertsService } from 'src/app/services/alerts/alerts.service';
 
 @Component({
   selector: 'app-paring-table',
@@ -27,6 +28,7 @@ export class ParingTableComponent implements OnInit {
     private groupsService: GroupsService,
     private jwtService: JwtService,
     private localStorageService: LocalStorageService,
+    private alertsService: AlertsService,
     private router: Router
   ) {
     this.currentGroup = this.groupsService.getGroup();
@@ -121,6 +123,10 @@ export class ParingTableComponent implements OnInit {
     user.pairing_group = undefined;
     this.userService.updateUser(user).subscribe(response => {
       this.localStorageService.setUser(response);
+      this.alertsService.showSuccessMsg(
+        'You have successfully left the group.',
+        'Group leave success!'
+      )
       this.router.navigate(['groups'])
     })
   }

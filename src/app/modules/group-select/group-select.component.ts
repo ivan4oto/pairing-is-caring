@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Account } from 'src/app/models/accounts';
 import { PairingGroup } from 'src/app/models/pairing-sessions';
+import { AlertsService } from 'src/app/services/alerts/alerts.service';
 import { GroupsService } from 'src/app/services/groups/groups.service';
 import { JwtService } from 'src/app/services/jwt/jwt.service';
 import { UsersService } from 'src/app/services/users/users.service';
@@ -25,6 +26,7 @@ export class GroupSelectComponent implements OnInit {
     private jwtService: JwtService,
     private userService: UsersService,
     private groupService: GroupsService,
+    private alertsService: AlertsService,
     private router: Router,
     ) { 
     this.user = this.jwtService.getUser();
@@ -39,8 +41,13 @@ export class GroupSelectComponent implements OnInit {
   createGroup() {
     const groupName: string = this.groupCreateForm.controls['groupName'].value;
     const group = { name: groupName, createdBy: this.user.username, ownedBy: this.user.username } as PairingGroup;
-    this.groupService.postGroup(group).subscribe(response => {
-      console.log(response);
+    this.groupService.postGroup(group).subscribe((response) => {
+      this.alertsService.showSuccessMsg(
+        `You have successfully created the group ${groupName}`,
+        'Create group has been successful'
+      )
+    }, (error) => {
+      this.alertsService.showErrorMsg('An error has occurred while creating group. Please check details or contact us.', 'Error creating group.')
     });
   }
 
@@ -50,6 +57,10 @@ export class GroupSelectComponent implements OnInit {
     this.user.pairing_group = selectedGroup
     this.userService.updateUser(this.user).subscribe((response) => {
       this.groupService.setGroup(selectedGroup)
+      this.alertsService.showSuccessMsg(
+        `You have successfully joined group ${selectedGroup.name}`,
+        'Join Group Success'
+      )
       this.router.navigate(['home'])
     })
   }

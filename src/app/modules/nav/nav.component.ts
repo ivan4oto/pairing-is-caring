@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AlertsService } from 'src/app/services/alerts/alerts.service';
 import { GroupsService } from 'src/app/services/groups/groups.service';
 import { JwtService } from 'src/app/services/jwt/jwt.service';
 import { UsersService } from 'src/app/services/users/users.service';
@@ -15,7 +16,8 @@ export class NavComponent implements OnInit {
     private jwtService: JwtService,
     private groupService: GroupsService,
     private userService: UsersService,
-    private router: Router
+    private router: Router,
+    private alertsService: AlertsService
   ) {
   }
 
@@ -25,6 +27,10 @@ export class NavComponent implements OnInit {
   public logout(): void {
     this.jwtService.logout();
     this.groupService.removeGroup();
+    this.alertsService.showSuccessMsg(
+      'You have successfully logged out.',
+      'Log out success'
+    )
     this.router.navigate(['login'])
   }
 

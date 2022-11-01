@@ -19,6 +19,7 @@ import { ParingTableComponent } from './modules/paring-table/paring-table.compon
 import { DragDropModule} from '@angular/cdk/drag-drop';
 import { GroupSelectComponent } from './modules/group-select/group-select.component';
 import { ProfilePageComponent } from './modules/profile-page/profile-page.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { ProfilePageComponent } from './modules/profile-page/profile-page.compon
   ],
   imports: [
     BrowserModule,
+    ToastrModule.forRoot(),
     AppRoutingModule,
     BrowserAnimationsModule,
     MatButtonModule,
