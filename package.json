@@ -20,7 +20,6 @@
     "@angular/platform-browser": "^14.0.0",
     "@angular/platform-browser-dynamic": "^14.0.0",
     "@angular/router": "^14.0.0",
-    "bootstrap": "^5.2.2",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "ngx-toastr": "^15.2.1",
