@@ -20,6 +20,8 @@ import { DragDropModule} from '@angular/cdk/drag-drop';
 import { GroupSelectComponent } from './modules/group-select/group-select.component';
 import { ProfilePageComponent } from './modules/profile-page/profile-page.component';
 import { ToastrModule } from 'ngx-toastr';
+import { SessionDialogComponent } from './modules/session-dialog/session-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,7 @@ import { ToastrModule } from 'ngx-toastr';
     ParingTableComponent,
     GroupSelectComponent,
     ProfilePageComponent,
+    SessionDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,7 +44,8 @@ import { ToastrModule } from 'ngx-toastr';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatIconModule, 
+    MatIconModule,
+    MatDialogModule,
     ReactiveFormsModule,
     HttpClientModule,
     DragDropModule

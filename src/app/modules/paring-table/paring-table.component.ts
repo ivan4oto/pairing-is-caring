@@ -10,6 +10,8 @@ import { JwtService } from 'src/app/services/jwt/jwt.service';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { Router } from '@angular/router';
 import { AlertsService } from 'src/app/services/alerts/alerts.service';
+import { MatDialog } from '@angular/material/dialog';
+import { SessionDialogComponent } from '../session-dialog/session-dialog.component';
 
 @Component({
   selector: 'app-paring-table',
@@ -29,7 +31,8 @@ export class ParingTableComponent implements OnInit {
     private jwtService: JwtService,
     private localStorageService: LocalStorageService,
     private alertsService: AlertsService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {
     this.currentGroup = this.groupsService.getGroup();
   }
@@ -131,8 +134,24 @@ export class ParingTableComponent implements OnInit {
     })
   }
 
+  public openDialog(sessionId: string): void {
+    const session = this.getSessionById(sessionId);
+    if (session) {
+      const dialogRef = this.dialog.open(SessionDialogComponent, {
+        data: session
+      })
+      dialogRef.afterClosed().subscribe(result => {
+        console.log(`Dialog result: ${result}`);
+      });
+    }
+  }
+
   public isGroupActive(): boolean {
     return this.groupsService.isGroupSet()
+  }
+
+  public isUserLoggedIn(): boolean {
+    return this.jwtService.isLoggedIn()
   }
 
 }
