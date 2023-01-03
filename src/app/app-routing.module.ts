@@ -5,6 +5,7 @@ import { HomeComponent } from './modules/home/home.component';
 import { LoginComponent } from './modules/login/login.component';
 import { ProfilePageComponent } from './modules/profile-page/profile-page.component';
 import { RegisterComponent } from './modules/register/register.component';
+import { SessionEditComponent } from './modules/session-edit/session-edit.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,14 @@ const routes: Routes = [
   {
     path: 'profile-page',
     component: ProfilePageComponent
+  },
+  {
+    path: 'session/:sessionId',
+    component: SessionEditComponent,
+    children: [
+      {path: 'qs', redirectTo: 'edit'},
+      {path: 'edit', component: SessionEditComponent}
+    ]
   }
 ];
 

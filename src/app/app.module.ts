@@ -22,6 +22,7 @@ import { ProfilePageComponent } from './modules/profile-page/profile-page.compon
 import { ToastrModule } from 'ngx-toastr';
 import { SessionDialogComponent } from './modules/session-dialog/session-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { SessionEditComponent } from './modules/session-edit/session-edit.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     GroupSelectComponent,
     ProfilePageComponent,
     SessionDialogComponent,
+    SessionEditComponent,
   ],
   imports: [
     BrowserModule,
