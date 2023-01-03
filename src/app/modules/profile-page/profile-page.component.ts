@@ -37,10 +37,6 @@ export class ProfilePageComponent implements OnInit {
       this.fileName = file.name;
       this.fileType = file.type;
       this.fileToUpload = file;
-      // const formData = new FormData();
-      // formData.append("thumbnail", file);
-      // const upload$ = this.http.post("/api/thumbnail-upload", formData);
-      // upload$.subscribe();
     }
   }
   
@@ -71,9 +67,7 @@ export class ProfilePageComponent implements OnInit {
   updateUserProfilePic(image: FileImage){
     this.user.profile_image = image;
     this.userService.updateUser(this.user).subscribe(userResponse => {
-      // TODO: update user in the localstorage aswell cuz otherwise you need to relog.
-      // Actually update of the localstorage should be done automatically when we use the updateUser service
-      console.log(userResponse);
+      this.userService.refreshUserData(this.user.id);
     });
   }
 

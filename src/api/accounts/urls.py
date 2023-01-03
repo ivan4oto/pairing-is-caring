@@ -3,7 +3,8 @@ from accounts.views import (
     AccountCreateApi,
     AccountUpdateApi,
     AccountListApi,
-    AccountDeleteApi
+    AccountDeleteApi,
+    AccountGetApi
 )
 
 
@@ -13,5 +14,6 @@ urlpatterns = [
     path('delete/<int:account_id>/', AccountDeleteApi.as_view(), name='delete'),
     path('delete/<int:account_id>/<str:field>/', AccountDeleteApi.as_view(), name='delete-attr'),
     path('list/', AccountListApi.as_view(), name='list'),
-    path('list/<str:group_name>', AccountListApi.as_view(), name='list-by-group')
+    path('list/<str:group_name>', AccountListApi.as_view(), name='list-by-group'),
+    path('get/<int:account_id>', AccountGetApi.as_view(), name='get-by-id')
 ]

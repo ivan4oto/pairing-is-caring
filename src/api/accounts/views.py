@@ -95,3 +95,9 @@ class MyTokenObtainPairView(TokenObtainPairView):
             return data
 
     serializer_class = MyTokenObtainPairSerializer
+
+class AccountGetApi(APIView):
+    def get(self, request, account_id):
+        account = get_object(Account, pk=account_id)
+        data = AccountListApi.OutputSerializer(account, many=False).data
+        return Response(data)

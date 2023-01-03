@@ -73,4 +73,13 @@ export class UsersService {
     const url = `${this.baseUrl}/api/upload/start/`;
     return this.httpService.post(url, {file_name: name, file_type: type});
   }
+
+  public refreshUserData(id: number) {
+    const url = `${this.baseUrl}/accounts/get/${id}`;
+    this.httpService.get<Account>(url).subscribe(
+      response => {
+        this.localStorageService.setUser(response);
+      }
+    );
+  }
 }
