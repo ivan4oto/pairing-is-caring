@@ -3,11 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavComponent } from './modules/nav/nav.component';
+import { NavComponent } from './components/nav/nav.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LoginComponent } from './modules/login/login.component';
-import { RegisterComponent } from './modules/register/register.component';
-import { HomeComponent } from './modules/home/home.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { HomeComponent } from './components/home/home.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -15,14 +15,14 @@ import { MatIconModule } from '@angular/material/icon'
 import {MatSelectModule} from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { ParingTableComponent } from './modules/paring-table/paring-table.component';
+import { ParingTableComponent } from './components/paring-table/paring-table.component';
 import { DragDropModule} from '@angular/cdk/drag-drop';
-import { GroupSelectComponent } from './modules/group-select/group-select.component';
-import { ProfilePageComponent } from './modules/profile-page/profile-page.component';
+import { GroupSelectComponent } from './components/group-select/group-select.component';
+import { ProfilePageComponent } from './components/profile-page/profile-page.component';
 import { ToastrModule } from 'ngx-toastr';
-import { SessionDialogComponent } from './modules/session-dialog/session-dialog.component';
+import { SessionDialogComponent } from './components/session-dialog/session-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { SessionEditComponent } from './modules/session-edit/session-edit.component';
+import { SessionEditComponent } from './components/session-edit/session-edit.component';
 
 @NgModule({
   declarations: [

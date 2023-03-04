@@ -1,11 +1,11 @@
 <header class="nav-bar">
-  <div class="logo">Pairing is carring</div>
-  <div class="anchors-container">
+  <div class="logo center-align" style="margin-left: 15px;">Pairing is carring</div>
+  <div class="anchors-container center-align">
+    <a routerLink="home">Table</a>
     <a routerLink='groups' *ngIf="isLoggedIn()" href="#">Groups</a>
-    <a routerLink="home">Home(Table)</a>
-    <a href="#">something</a>
+    <!-- <a href="#">something</a> -->
   </div>
-  <div class="credentials">
+  <div class="credentials center-align">
     <button mat-raised-button *ngIf="isLoggedOut()" routerLink="login">Login</button>
     <button mat-raised-button *ngIf="isLoggedOut()" routerLink="register">Register</button>
     <button mat-raised-button *ngIf="!isLoggedOut()" (click)="logout()">Log Out</button>
