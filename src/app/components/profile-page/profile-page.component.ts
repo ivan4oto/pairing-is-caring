@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Account } from 'src/app/models/accounts';
 import { FileImage } from 'src/app/models/fileUpload';
+import { AlertsService } from 'src/app/services/alerts/alerts.service';
 import { FileUploadService } from 'src/app/services/file-upload/file-upload.service';
 import { JwtService } from 'src/app/services/jwt/jwt.service';
 import { UsersService } from 'src/app/services/users/users.service';
@@ -20,7 +21,8 @@ export class ProfilePageComponent implements OnInit {
   constructor(
     private fileUploadService: FileUploadService,
     private jwtService: JwtService,
-    private userService: UsersService
+    private userService: UsersService,
+    private alertsService: AlertsService
   ) {
     this.user = this.jwtService.getUser();
     if (this.user.profile_image) {
@@ -47,7 +49,7 @@ export class ProfilePageComponent implements OnInit {
         this.directUploadDo(response, this.fileToUpload);
       });
     } else {
-      console.log('You need to select a file!')
+      this.alertsService.showErrorMsg('Please pick an image from you drive.', 'No file selected!')
     }
   }
 

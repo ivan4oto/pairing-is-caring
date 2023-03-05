@@ -13,6 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon'
 import {MatSelectModule} from '@angular/material/select';
+import {MatTabsModule} from '@angular/material/tabs'
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ParingTableComponent } from './components/paring-table/paring-table.component';
@@ -23,6 +24,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { SessionDialogComponent } from './components/session-dialog/session-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SessionEditComponent } from './components/session-edit/session-edit.component';
+import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,7 @@ import { SessionEditComponent } from './components/session-edit/session-edit.com
     ProfilePageComponent,
     SessionDialogComponent,
     SessionEditComponent,
+    UnauthorizedComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,6 +51,7 @@ import { SessionEditComponent } from './components/session-edit/session-edit.com
     MatSelectModule,
     MatIconModule,
     MatDialogModule,
+    MatTabsModule,
     ReactiveFormsModule,
     HttpClientModule,
     DragDropModule
