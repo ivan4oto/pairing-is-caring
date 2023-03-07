@@ -1,17 +1,17 @@
 
-<div class="container mt-4" *ngIf="isUserLogged()">
+<div class="form-container" *ngIf="isUserLogged()">
 <h1>Groups</h1>  
-  <form class="form-container mb-3" [formGroup]="groupCreateForm" (ngSubmit)="createGroup()">
+  <form [formGroup]="groupCreateForm" (ngSubmit)="createGroup()">
     <mat-form-field appearance="fill">
       <mat-label>group name</mat-label>
       <input matInput formControlName="groupName" />
     </mat-form-field>  
-    <button type="submit" mat-raised-button>Create</button>
+    <button type="submit" class="buttons" mat-raised-button>Create</button>
   </form>
+  <p class="muted-text">By creating a group you become it's managing director. Every group can have only one managing director. </p>
   
-
   
-  <form class="form-container" [formGroup]="groupSelectForm" (ngSubmit)="joinGroup()">
+  <form [formGroup]="groupSelectForm" (ngSubmit)="joinGroup()">
     <mat-form-field appearance="fill">
       <mat-label>Choose a group</mat-label>
       <mat-select formControlName="groupSelectedName">
@@ -20,11 +20,7 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <button type="submit" mat-raised-button>Join Group</button>
+    <button type="submit" class="buttons" mat-raised-button>Join Group</button>
   </form>
-
-</div>
-
-<div *ngIf="!isUserLogged()">
-<h2>Please log in to choose a group</h2>
+  <p class="muted-text">Choose from one of the existing groups. When you join a group you will be able to take part in pairing sessions. </p>
 </div>

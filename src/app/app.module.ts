@@ -25,6 +25,7 @@ import { SessionDialogComponent } from './components/session-dialog/session-dial
 import { MatDialogModule } from '@angular/material/dialog';
 import { SessionEditComponent } from './components/session-edit/session-edit.component';
 import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
+import { UserOverviewComponent } from './components/user-overview/user-overview.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { UnauthorizedComponent } from './components/unauthorized/unauthorized.co
     SessionDialogComponent,
     SessionEditComponent,
     UnauthorizedComponent,
+    UserOverviewComponent,
   ],
   imports: [
     BrowserModule,

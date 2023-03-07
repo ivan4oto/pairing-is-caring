@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Account } from 'src/app/models/accounts';
 import { FileImage } from 'src/app/models/fileUpload';
 import { AlertsService } from 'src/app/services/alerts/alerts.service';
@@ -22,9 +23,13 @@ export class ProfilePageComponent implements OnInit {
     private fileUploadService: FileUploadService,
     private jwtService: JwtService,
     private userService: UsersService,
-    private alertsService: AlertsService
+    private alertsService: AlertsService,
+    private router: Router
   ) {
     this.user = this.jwtService.getUser();
+    if (!jwtService.isLoggedIn()) {
+      router.navigate(['unauthorized'])
+    }
     if (this.user.profile_image) {
       this.imagePath = this.user.profile_image.file;
     }
