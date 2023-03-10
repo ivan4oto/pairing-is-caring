@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Account } from 'src/app/models/accounts';
-import { FileImage } from 'src/app/models/fileUpload';
-import { AlertsService } from 'src/app/services/alerts/alerts.service';
-import { FileUploadService } from 'src/app/services/file-upload/file-upload.service';
 import { JwtService } from 'src/app/services/jwt/jwt.service';
-import { UsersService } from 'src/app/services/users/users.service';
+import { ImageUploadComponent } from '../image-upload/image-upload.component';
 
 @Component({
   selector: 'app-profile-page',
@@ -20,11 +18,9 @@ export class ProfilePageComponent implements OnInit {
   public user: Account;
 
   constructor(
-    private fileUploadService: FileUploadService,
     private jwtService: JwtService,
-    private userService: UsersService,
-    private alertsService: AlertsService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {
     this.user = this.jwtService.getUser();
     if (!jwtService.isLoggedIn()) {
@@ -38,44 +34,10 @@ export class ProfilePageComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onFileSelected(event: any): void {
-    const file: File = event.target.files[0];
-    if (file) {
-      this.fileName = file.name;
-      this.fileType = file.type;
-      this.fileToUpload = file;
-    }
-  }
-  
-  directUploadStart(): void {
-    if (this.fileToUpload) {
-      this.fileUploadService.startUpload(this.fileName, this.fileType).subscribe(response => {
-        console.log(response);
-        this.directUploadDo(response, this.fileToUpload);
-      });
-    } else {
-      this.alertsService.showErrorMsg('Please pick an image from you drive.', 'No file selected!')
-    }
-  }
-
-  directUploadFinish(data: any) {
-    return this.fileUploadService.finishUpload(data.id);
-  }
-
-  directUploadDo(data: any, file: File): void {
-    this.fileUploadService.uploadFileToS3(data, file).subscribe(() => {
-      this.directUploadFinish(data).subscribe((fileIdResponse: FileImage) => {
-        this.fileName = fileIdResponse.file;
-        this.updateUserProfilePic(fileIdResponse);
-      });
-    });
-  }
-
-  updateUserProfilePic(image: FileImage){
-    this.user.profile_image = image;
-    this.userService.updateUser(this.user).subscribe(userResponse => {
-      this.userService.refreshUserData(this.user.id);
-    });
+  public openDialog(): void {
+    this.dialog.open(ImageUploadComponent, {
+      data: this.user
+    })
   }
 
 }
