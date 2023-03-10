@@ -11,8 +11,12 @@
           (cdkDropListDropped)="drop($event, session.key)">
             <ng-container *ngIf="session.value.length > 0">
               <div class="example-box" *ngFor="let dude of session.value" cdkDrag>
-                <div *ngIf="!dude.profile_image">{{dude.username}}</div>
-                <img *ngIf="dude.profile_image" style="object-fit: cover;"  [src]="dude.profile_image.file" height="50px" width="50px"/>
+                <div matTooltip="{{ dude.username }}" >
+
+                  <div *ngIf="!dude.profile_image">{{dude.username}}</div>
+                  <img *ngIf="dude.profile_image" style="object-fit: cover;"  [src]="dude.profile_image.file" height="50px" width="50px"/>
+
+                </div>
               </div>
             </ng-container>
   
@@ -28,8 +32,4 @@
     </div>
 
   <button *ngIf="isUserLoggedIn() && isGroupActive()" mat-raised-button color="warn" (click)="exitGroup()">Leave Group</button>
-</div>
-<div *ngIf="!isGroupActive() || !isUserLoggedIn()">
-  <h1 class="mat-display-1">You must be in a group to see this dashboard</h1>
-  <h2 class="mat-h2">Please log in if you're not and join a group to see the dashboard.</h2>
 </div>

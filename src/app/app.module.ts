@@ -14,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon'
 import {MatSelectModule} from '@angular/material/select';
 import {MatTabsModule} from '@angular/material/tabs'
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ParingTableComponent } from './components/paring-table/paring-table.component';
@@ -54,6 +55,7 @@ import { UserOverviewComponent } from './components/user-overview/user-overview.
     MatIconModule,
     MatDialogModule,
     MatTabsModule,
+    MatTooltipModule,
     ReactiveFormsModule,
     HttpClientModule,
     DragDropModule
