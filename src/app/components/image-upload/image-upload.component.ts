@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Account } from 'src/app/models/accounts';
 import { FileImage } from 'src/app/models/fileUpload';
 import { AlertsService } from 'src/app/services/alerts/alerts.service';
@@ -20,6 +20,7 @@ export class ImageUploadComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: Account,
+    public dialogRef: MatDialogRef<ImageUploadComponent>,
     private fileUploadService: FileUploadService,
     private userService: UsersService,
     private alertsService: AlertsService,
@@ -38,7 +39,7 @@ export class ImageUploadComponent implements OnInit {
       this.fileToUpload = file;
     }
   }
-  
+
   directUploadStart(): void {
     if (this.fileToUpload) {
       this.fileUploadService.startUpload(this.fileName, this.fileType).subscribe(response => {
@@ -59,6 +60,7 @@ export class ImageUploadComponent implements OnInit {
       this.directUploadFinish(data).subscribe((fileIdResponse: FileImage) => {
         this.fileName = fileIdResponse.file;
         this.updateUserProfilePic(fileIdResponse);
+        this.dialogRef.close('success');
       });
     });
   }
