@@ -11,6 +11,7 @@ import { UsersService } from 'src/app/services/users/users.service';
   styleUrls: ['./nav.component.scss'],
 })
 export class NavComponent implements OnInit {
+  public imagePath!: String;
 
   constructor(
     private jwtService: JwtService,
@@ -19,9 +20,11 @@ export class NavComponent implements OnInit {
     private router: Router,
     private alertsService: AlertsService
   ) {
+    this.imagePath = userService.getUserProfilePic();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
 
   public logout(): void {

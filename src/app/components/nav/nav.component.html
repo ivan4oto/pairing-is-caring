@@ -9,6 +9,8 @@
     <button mat-raised-button *ngIf="isLoggedOut()" routerLink="login">Login</button>
     <button mat-raised-button *ngIf="isLoggedOut()" routerLink="register">Register</button>
     <button mat-raised-button *ngIf="!isLoggedOut()" (click)="logout()">Log Out</button>
-    <button *ngIf="!isLoggedOut()" style="background-color: white" (click)="openProfilePage()">{{ getUserName() }}</button>
+    <div class="image-cropper" *ngIf="!isLoggedOut()" (click)="openProfilePage()">
+      <img class="small-image" [src]="imagePath" width="30px" height="30px" class="rounded" />
+    </div>
   </div>
 </header>

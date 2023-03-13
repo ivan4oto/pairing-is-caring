@@ -82,4 +82,10 @@ export class UsersService {
       }
     );
   }
+
+  public getUserProfilePic(): String {
+    const profileImage: String = this.getActiveUser().profile_image.file;
+    return profileImage;
+  }
+
 }
