@@ -2,11 +2,11 @@
   display: flex;
   justify-content: space-between;
   height: 70px;
-  background-color: rgb(141, 141, 219);
+  background-color: rgb(21, 41, 65);
 }
 
-.anchors-container {
-  margin-top: 40px;
+.center-align {
+  align-self: center;
 }
 
 a {
@@ -28,10 +28,32 @@ a {
 }
 
 .credentials {
+  display: flex;
+  flex-direction: row;
   margin-right: 50px;
 }
 
 button {
   width: 110px;
   margin: 2px;
+}
+
+
+.image-cropper {
+  width: 30px;
+  height: 30px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 2px solid greenyellow;
+  margin-left: 10px;
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+.small-image {
+  display: inline;
+  margin: 0 auto;
+  height: 100%;
+  width: auto;
 }

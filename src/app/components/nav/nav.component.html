@@ -1,0 +1,16 @@
+<header class="nav-bar">
+  <div class="logo center-align" style="margin-left: 15px;">Pairing is carring</div>
+  <div class="center-align">
+    <a routerLink="home">Table</a>
+    <a routerLink='groups' *ngIf="isLoggedIn()" href="#">Groups</a>
+    <!-- <a href="#">something</a> -->
+  </div>
+  <div class="credentials center-align">
+    <button mat-raised-button *ngIf="isLoggedOut()" routerLink="login">Login</button>
+    <button mat-raised-button *ngIf="isLoggedOut()" routerLink="register">Register</button>
+    <button mat-raised-button *ngIf="!isLoggedOut()" (click)="logout()">Log Out</button>
+    <div class="image-cropper" *ngIf="!isLoggedOut()" (click)="openProfilePage()">
+      <img class="small-image" [src]="imagePath" width="30px" height="30px" class="rounded" />
+    </div>
+  </div>
+</header>

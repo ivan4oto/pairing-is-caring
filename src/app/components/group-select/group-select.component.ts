@@ -30,6 +30,9 @@ export class GroupSelectComponent implements OnInit {
     private router: Router,
     ) { 
     this.user = this.jwtService.getUser();
+    if (!jwtService.isLoggedIn()) {
+      router.navigate(['unauthorized'])
+    }
   }
 
   ngOnInit(): void {

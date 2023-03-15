@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
 import { Account } from 'src/app/models/accounts';
+import { FileImage } from 'src/app/models/fileUpload';
 import { LocalStorageService } from '../local-storage/local-storage.service';
 
 @Injectable({
@@ -19,7 +20,14 @@ export class JwtService {
 
   getUser(): Account {
     const jsonUser = this.localStorageService.getUserString();
-    return JSON.parse(jsonUser) as Account;
+    const user: Account = JSON.parse(jsonUser);
+    if (!user.profile_image) {
+      user.profile_image = {
+        id: -1,
+        file: 'https://www.meme-arsenal.com/memes/4025aa16b90b53e92746a96f1368cb4f.jpg'
+      } as FileImage;
+    }
+    return user;
   }
   
   public isLoggedIn() {

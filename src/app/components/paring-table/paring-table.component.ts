@@ -34,6 +34,9 @@ export class ParingTableComponent implements OnInit {
     private router: Router,
     private dialog: MatDialog
   ) {
+    if (!jwtService.isLoggedIn() && !groupsService.isGroupSet()) {
+      router.navigate(['unauthorized'])
+    }
     this.currentGroup = this.groupsService.getGroup();
   }
 

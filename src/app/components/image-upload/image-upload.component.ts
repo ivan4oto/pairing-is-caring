@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Account } from 'src/app/models/accounts';
 import { FileImage } from 'src/app/models/fileUpload';
+import { AlertsService } from 'src/app/services/alerts/alerts.service';
 import { FileUploadService } from 'src/app/services/file-upload/file-upload.service';
-import { JwtService } from 'src/app/services/jwt/jwt.service';
 import { UsersService } from 'src/app/services/users/users.service';
 
 @Component({
-  selector: 'app-profile-page',
-  templateUrl: './profile-page.component.html',
-  styleUrls: ['./profile-page.component.scss']
+  selector: 'app-image-upload',
+  templateUrl: './image-upload.component.html',
+  styleUrls: ['./image-upload.component.scss']
 })
-export class ProfilePageComponent implements OnInit {
+export class ImageUploadComponent implements OnInit {
   fileName = '';
   fileType = '';
   imagePath = '';
@@ -18,14 +19,13 @@ export class ProfilePageComponent implements OnInit {
   public user: Account;
 
   constructor(
+    @Inject(MAT_DIALOG_DATA) private data: Account,
+    public dialogRef: MatDialogRef<ImageUploadComponent>,
     private fileUploadService: FileUploadService,
-    private jwtService: JwtService,
-    private userService: UsersService
+    private userService: UsersService,
+    private alertsService: AlertsService,
   ) {
-    this.user = this.jwtService.getUser();
-    if (this.user.profile_image) {
-      this.imagePath = this.user.profile_image.file;
-    }
+    this.user = data;
   }
 
   ngOnInit(): void {
@@ -39,7 +39,7 @@ export class ProfilePageComponent implements OnInit {
       this.fileToUpload = file;
     }
   }
-  
+
   directUploadStart(): void {
     if (this.fileToUpload) {
       this.fileUploadService.startUpload(this.fileName, this.fileType).subscribe(response => {
@@ -47,7 +47,7 @@ export class ProfilePageComponent implements OnInit {
         this.directUploadDo(response, this.fileToUpload);
       });
     } else {
-      console.log('You need to select a file!')
+      this.alertsService.showErrorMsg('Please pick an image from you drive.', 'No file selected!')
     }
   }
 
@@ -60,6 +60,7 @@ export class ProfilePageComponent implements OnInit {
       this.directUploadFinish(data).subscribe((fileIdResponse: FileImage) => {
         this.fileName = fileIdResponse.file;
         this.updateUserProfilePic(fileIdResponse);
+        this.dialogRef.close('success');
       });
     });
   }
@@ -70,5 +71,6 @@ export class ProfilePageComponent implements OnInit {
       this.userService.refreshUserData(this.user.id);
     });
   }
+
 
 }

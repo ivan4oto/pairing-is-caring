@@ -1,0 +1,48 @@
+
+<div class="main-container">
+  <div class="form-container" *ngIf="isUserLogged()">
+  <h1>Groups</h1>  
+    <form [formGroup]="groupCreateForm" (ngSubmit)="createGroup()">
+      <mat-form-field appearance="fill">
+        <mat-label>group name</mat-label>
+        <input matInput formControlName="groupName" />
+      </mat-form-field>  
+      <button type="submit" class="buttons" mat-raised-button>Create</button>
+    </form>
+    <p class="muted-text">By creating a group you become it's managing director. Every group can have only one managing director. </p>
+    
+    
+    <form [formGroup]="groupSelectForm" (ngSubmit)="joinGroup()">
+      <mat-form-field appearance="fill">
+        <mat-label>Choose a group</mat-label>
+        <mat-select formControlName="groupSelectedName">
+          <mat-option *ngFor="let group of availableGroups" [value]="group">
+            {{group.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button type="submit" class="buttons" mat-raised-button>Join Group</button>
+    </form>
+    <p class="muted-text">Choose from one of the existing groups. When you join a group you will be able to take part in pairing sessions. </p>
+  </div>
+  <div class="info-container">
+    <h2>Групи</h2>
+    <p>За всяка група си има отделен Dashboard или Pairing Table. Групите си имат история.</p>
+    
+    <h3>Създаване на група:</h3>
+    <p>Може да създадете група, като в началото тя ще е празна. Няма да има история нито пък описание.</p>
+    <p>Създавайки група вие автоматично се превръщате в неин МД (мениджинг директор). 
+      Ако не притежавате миниван с мотор поне 1.1 TDI титлата ви има шанс да бъде отнета</p>
+
+    <h3>Присъединяване към група:</h3>
+    <p>Веднъж станал част от група Вие ще имате достъп към нейният pairing table. Там ще може да участвате в pairing sessions.</p>
+    <p>Като част от група вие сте длъжни да изпълнявате командите на мениджинг директора на групата. Нямате право да напускате празненства докато 
+      той не ви позволи и ако се казвате Костадин сте принудени да се чувствате всеки път, когато сте поздравен с "Голям си Коце, Коце." 
+    </p>
+
+    <h3>Напускане на група:</h3>
+    <p>Напускането на група става трудно веднъж след като знаете, че друга такава група нЕма. </p>
+  
+  </div>
+
+</div>
