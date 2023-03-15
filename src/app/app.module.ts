@@ -24,7 +24,6 @@ import { ProfilePageComponent } from './components/profile-page/profile-page.com
 import { ToastrModule } from 'ngx-toastr';
 import { SessionDialogComponent } from './components/session-dialog/session-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { SessionEditComponent } from './components/session-edit/session-edit.component';
 import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
 import { UserOverviewComponent } from './components/user-overview/user-overview.component';
 import { ImageUploadComponent } from './components/image-upload/image-upload.component';
@@ -40,7 +39,6 @@ import { ImageUploadComponent } from './components/image-upload/image-upload.com
     GroupSelectComponent,
     ProfilePageComponent,
     SessionDialogComponent,
-    SessionEditComponent,
     UnauthorizedComponent,
     UserOverviewComponent,
     ImageUploadComponent,

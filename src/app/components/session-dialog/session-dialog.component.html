@@ -1,5 +1,23 @@
-<p>Pairing Session: </p>
-<p>Pairing since: {{ data.start_time }}</p>
-<p>Members: </p>
-<p>Description: </p>
-<button mat-button [routerLink]="['session', 1]"><mat-icon>edit</mat-icon></button>
+<div class="container">
+    
+    <h2>Pairing Session: </h2>
+    <h2>Pairing since: {{ data.start_time }}</h2>
+    <h2>Members: </h2>
+    <h2>Description: </h2>
+    <form [formGroup]="sessionEditForm" (click)="setDisabledFalse()">
+        <mat-form-field appearance="fill">
+            <!-- <mat-label>Autosize textarea</mat-label> -->
+            <textarea matInput
+                      formControlName="description"
+                      cdkTextareaAutosize
+                      #autosize="cdkTextareaAutosize"
+                      cdkAutosizeMinRows="1"
+                      cdkAutosizeMaxRows="5"
+                      spellcheck="false"></textarea>
+          </mat-form-field>
+
+    </form>
+
+    <button mat-button><mat-icon>save</mat-icon></button>
+
+</div>
