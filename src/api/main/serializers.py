@@ -24,3 +24,9 @@ class PairingSessionSerializer(serializers.ModelSerializer):
                 "required": False,
             }
         }
+
+class PairingSessionUpdateSerializer(serializers.ModelSerializer):    
+    class Meta:
+        model = PairingSession
+        fields = "__all__"
+ 
