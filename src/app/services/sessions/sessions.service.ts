@@ -12,7 +12,7 @@ export class SessionsService {
 
   public updateSession(session: PairingSession) {
     const url = `${this.baseUrl}/sessions/${session.id}/update/`;
-    return this.httpService.post(url, session);
+    return this.httpService.put(url, session);
   }
 
   public getSessions(): Observable<PairingSession[]> {

@@ -6,3 +6,11 @@
 mat-form-field {
     width: 400px;
 }
+
+.form-style {
+    font-size: 20px
+}
+
+.mat-input-element:disabled {
+    color: rgb(66, 66, 66);
+}

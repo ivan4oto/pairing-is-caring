@@ -1,11 +1,14 @@
 <div class="container">
-    
+    <form [formGroup]="sessionEditForm" (click)="enableEditDescription()">
     <h2>Pairing Session: </h2>
+    <mat-form-field class="form-style">
+        <input matInput formControlName="title" spellcheck="false">
+    </mat-form-field>
+    
     <h2>Pairing since: {{ data.start_time }}</h2>
     <h2>Members: </h2>
     <h2>Description: </h2>
-    <form [formGroup]="sessionEditForm" (click)="setDisabledFalse()">
-        <mat-form-field appearance="fill">
+        <mat-form-field class="form-style" appearance="fill">
             <!-- <mat-label>Autosize textarea</mat-label> -->
             <textarea matInput
                       formControlName="description"
@@ -15,9 +18,8 @@
                       cdkAutosizeMaxRows="5"
                       spellcheck="false"></textarea>
           </mat-form-field>
-
     </form>
 
-    <button mat-button><mat-icon>save</mat-icon></button>
+    <button mat-button (click)="editSessionSave()"><mat-icon>save</mat-icon></button>
 
 </div>
