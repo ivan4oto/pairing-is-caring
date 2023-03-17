@@ -8,7 +8,7 @@
           cdkDropList
           [cdkDropListData]="session.value"
           class="example-list"
-          (cdkDropListDropped)="drop($event, session.key)">
+          (cdkDropListDropped)="triggerDropConfirmation($event, session.key)">
             <ng-container *ngIf="session.value.length > 0">
               <div class="example-box" *ngFor="let dude of session.value" cdkDrag>
                 <div matTooltip="{{ dude.username }}" >

@@ -27,6 +27,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
 import { UserOverviewComponent } from './components/user-overview/user-overview.component';
 import { ImageUploadComponent } from './components/image-upload/image-upload.component';
+import { SessionConfirmationDialogComponent } from './components/session-confirmation-dialog/session-confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { ImageUploadComponent } from './components/image-upload/image-upload.com
     UnauthorizedComponent,
     UserOverviewComponent,
     ImageUploadComponent,
+    SessionConfirmationDialogComponent,
   ],
   imports: [
     BrowserModule,

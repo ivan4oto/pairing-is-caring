@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { AlertsService } from 'src/app/services/alerts/alerts.service';
 import { MatDialog } from '@angular/material/dialog';
 import { SessionDialogComponent } from '../session-dialog/session-dialog.component';
+import { SessionConfirmationDialogComponent } from '../session-confirmation-dialog/session-confirmation-dialog.component';
 
 @Component({
   selector: 'app-paring-table',
@@ -96,7 +97,17 @@ export class ParingTableComponent implements OnInit {
     });
   }
 
-  public drop(event: CdkDragDrop<any>, sessionId: string): void {
+  public triggerDropConfirmation(event: CdkDragDrop<any>, sessionId: string): void {
+    const dialogRef = this.dialog.open(SessionConfirmationDialogComponent, {
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'yes') {
+        this.drop(event, sessionId)
+      }
+    });
+  }
+
+  private drop(event: CdkDragDrop<any>, sessionId: string): void {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
