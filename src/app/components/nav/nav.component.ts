@@ -11,7 +11,7 @@ import { UsersService } from 'src/app/services/users/users.service';
   styleUrls: ['./nav.component.scss'],
 })
 export class NavComponent implements OnInit {
-  public imagePath!: String;
+  public imagePath!: string;
 
   constructor(
     private jwtService: JwtService,

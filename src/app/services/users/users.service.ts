@@ -10,6 +10,8 @@ import { LocalStorageService } from '../local-storage/local-storage.service';
 })
 export class UsersService {
   private baseUrl = 'http://127.0.0.1:8000';
+  private defaultProfilePicUrl = 'https://www.meme-arsenal.com/memes/4025aa16b90b53e92746a96f1368cb4f.jpg';
+
   constructor(
     private httpService: HttpClient,
     private localStorageService: LocalStorageService
@@ -83,9 +85,14 @@ export class UsersService {
     );
   }
 
-  public getUserProfilePic(): String {
-    const profileImage: String = this.getActiveUser().profile_image.file;
-    return profileImage;
+  public getUserProfilePic(): string {
+    const activeUser: Account = this.getActiveUser();
+    console.log(activeUser);
+    if (activeUser && activeUser.profile_image) {
+      const profileImage: string = activeUser.profile_image.file;
+      return profileImage;
+    }
+    return this.defaultProfilePicUrl;
   }
 
 }

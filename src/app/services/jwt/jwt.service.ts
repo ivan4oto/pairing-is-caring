@@ -21,12 +21,6 @@ export class JwtService {
   getUser(): Account {
     const jsonUser = this.localStorageService.getUserString();
     const user: Account = JSON.parse(jsonUser);
-    if (!user.profile_image) {
-      user.profile_image = {
-        id: -1,
-        file: 'https://www.meme-arsenal.com/memes/4025aa16b90b53e92746a96f1368cb4f.jpg'
-      } as FileImage;
-    }
     return user;
   }
   

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Account } from 'src/app/models/accounts';
 import { AlertsService } from 'src/app/services/alerts/alerts.service';
 import { JwtService } from 'src/app/services/jwt/jwt.service';
+import { UsersService } from 'src/app/services/users/users.service';
 import { ImageUploadComponent } from '../image-upload/image-upload.component';
 
 @Component({
@@ -20,6 +21,7 @@ export class ProfilePageComponent implements OnInit {
 
   constructor(
     private jwtService: JwtService,
+    private usersService: UsersService,
     private router: Router,
     private dialog: MatDialog,
     private alertsService: AlertsService
@@ -28,9 +30,7 @@ export class ProfilePageComponent implements OnInit {
     if (!jwtService.isLoggedIn()) {
       router.navigate(['unauthorized'])
     }
-    if (this.user.profile_image) {
-      this.imagePath = this.user.profile_image.file;
-    }
+    this.imagePath = this.usersService.getUserProfilePic();
   }
 
   ngOnInit(): void {
