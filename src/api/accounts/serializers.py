@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from accounts.models import Account
-from accounts.utils import get_object
+from accounts.utils import get_object, inline_serializer
 from main.models import PairingGroup, PairingSession
 from main.services import create_new_session
 from main.serializers import PairingSessionSerializer, PairingGroupSerializer
@@ -45,3 +45,21 @@ class AccountUpdateSerializer(serializers.ModelSerializer):
         instance.is_active = validated_data.get('is_active', instance.is_active)
         instance.save()
         return instance
+    
+class AccountOutputSerializer(serializers.Serializer):
+    pairing_session = PairingSessionSerializer(required=False, allow_null=True)
+    pairing_group = PairingGroupSerializer(required=False, allow_null=True)
+    profile_image = FileSerializer(required=False, allow_null=True)
+
+    class Meta:
+        model = Account
+        fields = [
+            "id",
+            "is_active",
+            "email",
+            "username",
+            "pairing_session",
+            "pairing_group",
+            "profile_image"
+        ]
+

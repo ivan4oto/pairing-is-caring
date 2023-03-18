@@ -2,10 +2,11 @@ from rest_framework import serializers, status, generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from accounts.utils import get_object
+from accounts.serializers import AccountOutputSerializer
 from main.serializers import PairingSessionUpdateSerializer
 
 from main.models import PairingGroup, PairingSession
-from main.services import group_create, session_create
+from main.services import get_accounts_in_session, group_create, session_create
 
 
 class PairingSessionListApi(APIView):
@@ -53,6 +54,12 @@ class PairingSessionUpdateApi(generics.UpdateAPIView):
 
         return Response(serializer.data)
 
+
+class PairingSessionGetUsersApi(APIView):
+        def get(self, request, session_id):
+            accounts = get_accounts_in_session(session_id)
+            data = AccountOutputSerializer(accounts, many=True).data
+            return Response(data)
 
 ###
 # Pairing Group API

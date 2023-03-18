@@ -2,7 +2,7 @@ from accounts.models import Account
 from main.models import PairingGroup, PairingSession
 
 
-def get_athletes_in_this_session(session_id):
+def get_accounts_in_session(session_id):
     return Account.objects.filter(
         pairing_session__id=session_id
     ).all()

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { PairingSession } from 'src/app/models/pairing-sessions';
+import { Account } from 'src/app/models/accounts';
 
 @Injectable({
   providedIn: 'root',
@@ -23,5 +24,10 @@ export class SessionsService {
   public createNewSession(startTime: string): Observable<PairingSession> {
     const url = `${this.baseUrl}/sessions/create/`;
     return this.httpService.post<PairingSession>(url, { start_time: startTime }); 
+  }
+
+  public getUsersInSession(sessionId: string): Observable<Account[]> {
+    const url = `${this.baseUrl}/sessions/get-users/${sessionId}`
+    return this.httpService.get<Account[]>(url);
   }
 }
