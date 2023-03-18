@@ -5,12 +5,16 @@
 
 .example-container {
   display: flex;
+  flex-direction: row;
+}
+
+.row-container-item {
+  align-self: center;
 }
 
 .butonche {
-  display: flex;
   height: 50px;
-  margin-top: 1%;
+  margin-right: 10px;
 }
 
 .example-list {

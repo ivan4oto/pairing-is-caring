@@ -3,6 +3,7 @@ import { Component, Inject, NgZone, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { take } from 'rxjs';
+import { Account } from 'src/app/models/accounts';
 import { PairingSession } from 'src/app/models/pairing-sessions';
 import { AlertsService } from 'src/app/services/alerts/alerts.service';
 import { SessionsService } from 'src/app/services/sessions/sessions.service';
@@ -29,10 +30,12 @@ export class SessionDialogComponent implements OnInit {
     public disabled: boolean = true;
     public sessionTitle: string;
     public sessionDescription: string;
+    public allUsers!: Account[]; // maybe use pipe to display names?
     
   ngOnInit(): void {
     console.log(this.data);
     this.buildSessionEditForm();
+    this.loadUsersForSession(this.data.id);
   }
 
   triggerResize() {
@@ -69,6 +72,15 @@ export class SessionDialogComponent implements OnInit {
       },
       err => {
         this.alertsService.showErrorMsg('Error has occured!', 'Error');
+      }
+    );
+  }
+
+  private loadUsersForSession(sessionId: string) {
+    this.sessionsService.getUsersInSession(sessionId).subscribe(
+      (users: Account[]) => {
+        this.allUsers = users;
+        console.log(users);
       }
     );
   }
