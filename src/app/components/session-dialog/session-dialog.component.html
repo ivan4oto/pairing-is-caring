@@ -5,7 +5,7 @@
         <input matInput formControlName="title" spellcheck="false">
     </mat-form-field>
     
-    <h2>Pairing since: {{ data.start_time }}</h2>
+    <h2>Pairing since: {{ data.start_time | date : 'medium'}}</h2>
     <h2>Members: </h2>
     <h2>Description: </h2>
         <mat-form-field class="form-style" appearance="fill">
