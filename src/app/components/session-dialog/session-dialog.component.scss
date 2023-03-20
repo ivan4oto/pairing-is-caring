@@ -14,3 +14,13 @@ mat-form-field {
 .mat-input-element:disabled {
     color: rgb(66, 66, 66);
 }
+
+.members-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.member-chip {
+    margin: 3px;
+}

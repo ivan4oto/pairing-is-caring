@@ -7,6 +7,9 @@
     
     <h2>Pairing since: {{ data.start_time | date : 'medium'}}</h2>
     <h2>Members: </h2>
+    <div class="members-row">
+        <h3 class="member-chip" *ngFor="let user of allUsers">{{ user.username }}</h3>
+    </div>
     <h2>Description: </h2>
         <mat-form-field class="form-style" appearance="fill">
             <!-- <mat-label>Autosize textarea</mat-label> -->
