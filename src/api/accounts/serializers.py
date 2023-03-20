@@ -46,7 +46,7 @@ class AccountUpdateSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
     
-class AccountOutputSerializer(serializers.Serializer):
+class AccountOutputSerializer(serializers.ModelSerializer):
     pairing_session = PairingSessionSerializer(required=False, allow_null=True)
     pairing_group = PairingGroupSerializer(required=False, allow_null=True)
     profile_image = FileSerializer(required=False, allow_null=True)
