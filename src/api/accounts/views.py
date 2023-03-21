@@ -1,6 +1,7 @@
 from datetime import datetime
 from django.conf import settings
 from django.core import serializers as core_serializer
+from django.http import HttpResponseNotFound
 
 from rest_framework import status, serializers
 from rest_framework.views import APIView
@@ -80,5 +81,7 @@ class MyTokenObtainPairView(TokenObtainPairView):
 class AccountGetApi(APIView):
     def get(self, request, account_id):
         account = get_object(Account, pk=account_id)
+        if not account:
+            return HttpResponseNotFound(f"Account with id {account_id} does not exist.")     
         data = AccountOutputSerializer(account, many=False).data
         return Response(data)
