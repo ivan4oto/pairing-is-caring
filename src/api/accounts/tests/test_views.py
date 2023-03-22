@@ -8,8 +8,9 @@ class AccountApiTest(TestCase):
 
     def create_account(self):
         return Account.objects.create(
-            email='mail@abv.bg',
-            username='revanger'            
+            email = "mail@abv.bg",
+            username = "revanger",
+            password = "123456"
         )
 
     def test_list_view(self):
@@ -52,3 +53,69 @@ class AccountApiTest(TestCase):
         self.assertEqual(acc.username, "randomuser")
         self.assertEqual(acc.email, "novmail@abv.bg")
         self.assertNotEqual(acc.password, "123456")
+
+    def test_update(self):
+        acc = self.create_account()
+        url = reverse("update", kwargs = {"account_id": 1})
+        fetched_acc = Account.objects.first()
+        self.assertEqual(fetched_acc.id, 1)
+        self.assertEqual(fetched_acc.username, "revanger")
+        self.assertEqual(fetched_acc.is_active, True)
+
+        resp = self.client.post(url, {
+            "is_active": False,
+            "username": "nashiquzar"
+        })
+        self.assertEqual(resp.status_code, 200)
+        updated_account = Account.objects.first()
+        self.assertEqual(updated_account.is_active, False)
+        self.assertEqual(updated_account.username, "nashiquzar")
+
+    def test_delete(self):
+        acc = self.create_account()
+        url = reverse("delete", kwargs = {"account_id": 1})
+        fetched_acc = Account.objects.first()
+        self.assertTrue(fetched_acc)
+
+        resp = self.client.delete(url)
+        self.assertEqual(resp.status_code, 200)
+        deleted_acc = Account.objects.first()
+        self.assertFalse(deleted_acc)
+
+    def test_token_obtain_pair(self):
+        self.create_account()
+        acc = Account.objects.first()
+        acc.set_password("123456")
+        acc.save()
+
+        url = reverse("token_obtain_pair")
+        resp = self.client.post(url, {
+            "email": "mail@abv.bg",
+            "password": "123456"
+        })
+        self.assertEqual(resp.status_code, 200)
+        self.assertTrue(resp.json().get("access"))
+        self.assertTrue(resp.json().get("refresh"))
+        response_user = resp.json().get("user")
+        self.assertEqual(response_user.get("id"), acc.id)
+        self.assertEqual(response_user.get("email"), "mail@abv.bg")
+        self.assertEqual(response_user.get("is_active"), True)
+
+    def test_token_obtain_pair__WrongCredentials(self):
+        self.create_account()
+        acc = Account.objects.first()
+        acc.set_password("123456")
+        acc.save()
+
+        url = reverse("token_obtain_pair")
+        resp = self.client.post(url, {
+            "email": "mail@abv.bg",
+            "password": "azsamahilottroya"
+        })
+        self.assertEqual(resp.status_code, 401)
+        self.assertIsNone(resp.json().get("access"))
+        self.assertIsNone(resp.json().get("refresh"))
+        self.assertIsNone(resp.json().get("user"))
+        response_error = resp.json().get("detail")
+        self.assertTrue(response_error)
+        self.assertEqual(response_error, "No active account found with the given credentials")

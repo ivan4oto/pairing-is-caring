@@ -55,6 +55,7 @@ class AccountDeleteApi(APIView):
         account_obj = get_object(Account, pk=account_id)
         if field is None:
             account_obj.delete()
+            return Response(status=status.HTTP_200_OK)
         setattr(account_obj, field, None)
         account_obj.save()
         return Response(status=status.HTTP_200_OK)
