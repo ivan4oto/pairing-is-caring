@@ -44,6 +44,7 @@ export class RegisterComponent implements OnInit {
         this.alertsService.showSuccessMsg(
           `You have successfully created account with name: ${username}. You can now log in.`,
           'Register success.')
+        this.router.navigate(['login'])
       }, (error) => {
         this.alertsService.showErrorMsg(
           'There has been an error while signing up. Please contact us for more details or try again.',
