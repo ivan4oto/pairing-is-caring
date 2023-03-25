@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Account, AccountListResponse, AccountOutputSerializer } from 'src/app/models/accounts';
+import { Account } from 'src/app/models/accounts';
 import { PairingGroup } from 'src/app/models/pairing-sessions';
 import { LocalStorageService } from '../local-storage/local-storage.service';
 
@@ -32,7 +32,7 @@ export class UsersService {
     return this.httpService.post<Account>(url, {username: username});
   }
   
-  public updateUser(user: AccountOutputSerializer): Observable<Account> {
+  public updateUser(user: Account): Observable<Account> {
     const url = `${this.baseUrl}/accounts/${user.id}/update/`;
     return this.httpService.post<Account>(url, user);
   }
@@ -46,14 +46,14 @@ export class UsersService {
     return this.httpService.post(url, body);
   }
   
-  public getUsers(): Observable<AccountListResponse[]> {
+  public getUsers(): Observable<Account[]> {
     const url = `${this.baseUrl}/accounts/list/`;
-    return this.httpService.get<AccountListResponse[]>(url);
+    return this.httpService.get<Account[]>(url);
   }
   
-  public getUsersByGroup(groupName: string): Observable<AccountListResponse[]> {
+  public getUsersByGroup(groupName: string): Observable<Account[]> {
     const url = `${this.baseUrl}/accounts/list/${groupName}`;
-    return this.httpService.get<AccountListResponse[]>(url);
+    return this.httpService.get<Account[]>(url);
   }
 
   public getGroups(): Observable<PairingGroup[]>{

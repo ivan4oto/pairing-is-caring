@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as _ from "lodash";
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { UsersService } from 'src/app/services/users/users.service';
-import { AccountListResponse, AccountOutputSerializer } from 'src/app/models/accounts';
+import { Account } from 'src/app/models/accounts';
 import { PairingGroup, PairingSession } from 'src/app/models/pairing-sessions';
 import { SessionsService } from 'src/app/services/sessions/sessions.service';
 import { GroupsService } from 'src/app/services/groups/groups.service';
@@ -23,7 +23,7 @@ export class ParingTableComponent implements OnInit {
   private currentGroup: PairingGroup | undefined;
   public sessionGroup!: string;
   public allSessions!: PairingSession[];
-  public sessions!: Record<number, AccountListResponse[]>
+  public sessions!: Record<number, Account[]>
   
   constructor(
     private userService: UsersService,
@@ -58,9 +58,11 @@ export class ParingTableComponent implements OnInit {
     if (!this.currentGroup) {
       return;
     }
-    this.userService.getUsersByGroup(this.currentGroup.name).subscribe((response: AccountListResponse[]) => {
-      const arrayOfSessions = _.groupBy(response, ({pairing_session: { id }}) => `${id}`)
+    this.userService.getUsersByGroup(this.currentGroup.name).subscribe((listOfAccounts: Account[]) => {
+      // We craete a Record<number, Account[]> where for each session id (number) we keep all accounts that are in that PairingSession.
+      const arrayOfSessions = _.groupBy(listOfAccounts, ({pairing_session: { id }}) => `${id}`)
       this.sessions = arrayOfSessions;
+      // We add an empty Array with an id of 0. This is our placeholder that we use for unpairing. 
       this.sessions['0'] = [];
     });
   }
@@ -72,7 +74,27 @@ export class ParingTableComponent implements OnInit {
     })
   }
 
-  private updateUser(user: AccountOutputSerializer){
+  public getSessionPairingTime(sessionId: string): string {
+    // session.start_time.
+    const session: PairingSession | undefined = this.getSessionById(sessionId);
+    if (session) {
+      const date = new Date(session.start_time);
+      const now = new Date();
+      const timeDiff = Math.abs(now.getTime() - date.getTime());
+      const hoursDiff = Math.floor(timeDiff / (1000 * 60 * 60));
+      
+      if (hoursDiff >= 24) {
+        const daysDiff = Math.floor(hoursDiff / 24);
+        const remainingHoursDiff = hoursDiff % 24;
+        return `${daysDiff} day${daysDiff > 1 ? 's' : ''} and ${remainingHoursDiff} hour${remainingHoursDiff > 1 ? 's' : ''}`;
+      } else {
+        return `${hoursDiff} hour${hoursDiff > 1 ? 's' : ''}`;
+      }
+    }
+    return '';
+  }
+
+  private updateUser(user: Account){
     this.userService.updateUser(user).subscribe((response) => {
       console.log('User updated')
       console.log(response)
@@ -85,19 +107,23 @@ export class ParingTableComponent implements OnInit {
     }
   }
 
-  public unpair(user: AccountOutputSerializer) {
+  public unpair(user: Account) {
     const now = new Date(); // gets current datetime
     // sends current time to create new Pairing Session, adds it to the user(Account) and updates him in the DB
     this.sessionService.createNewSession(now.toISOString()).subscribe((response:PairingSession) => {
       user.pairing_session = response;
       const id: number = +response.id;
-      this.sessions[id] = [ user as AccountListResponse ];
+      this.sessions[id] = [ user as Account ];
       this.sessions[0] = [];
       this.updateUser(user)
     });
   }
 
   public triggerDropConfirmation(event: CdkDragDrop<any>, sessionId: string): void {
+    if (event.previousContainer === event.container) {
+      this.drop(event, sessionId)
+      return;
+    };
     const dialogRef = this.dialog.open(SessionConfirmationDialogComponent, {
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -117,7 +143,7 @@ export class ParingTableComponent implements OnInit {
         event.previousIndex,
         event.currentIndex,
       );
-      const droppedUser: AccountOutputSerializer = event.container.data[event.currentIndex];
+      const droppedUser: Account = event.container.data[event.currentIndex];
 
       if (sessionId === '0') {
         this.unpair(droppedUser);
@@ -167,5 +193,4 @@ export class ParingTableComponent implements OnInit {
   public isUserLoggedIn(): boolean {
     return this.jwtService.isLoggedIn()
   }
-
 }

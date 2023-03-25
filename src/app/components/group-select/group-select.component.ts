@@ -55,7 +55,6 @@ export class GroupSelectComponent implements OnInit {
   }
 
   joinGroup() {
-    console.log('joinnniing')
     const selectedGroup: PairingGroup = this.groupSelectForm.value.groupSelectedName
     this.user.pairing_group = selectedGroup
     this.userService.updateUser(this.user).subscribe((response) => {
