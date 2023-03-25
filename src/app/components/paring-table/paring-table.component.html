@@ -7,8 +7,9 @@
           cdkDropListOrientation="horizontal"
           cdkDropList
           [cdkDropListData]="session.value"
-          class="example-list"
-          (cdkDropListDropped)="triggerDropConfirmation($event, session.key)">
+          [ngClass]="session.value.length === 0 ? 'empty-session' : 'not-empty-session'"
+          (cdkDropListDropped)="triggerDropConfirmation($event, session.key)"
+          >
             <ng-container *ngIf="session.value.length > 0">
               <div class="example-box" *ngFor="let dude of session.value" cdkDrag>
                 <div matTooltip="{{ dude.username }}" >
@@ -26,7 +27,7 @@
 
         <div *ngIf="session.value.length > 0">
 
-          <div class="butonche row-container-item">
+          <div class="butonche row-container-item" *ngIf="session.value.length > 0">
             <button mat-mini-fab color="basic" aria-label="Example icon button with a delete icon" (click)="openDialog(session.key)">
               <mat-icon>view_headline</mat-icon>
             </button>

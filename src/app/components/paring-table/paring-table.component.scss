@@ -3,6 +3,29 @@
   margin-top: 5%;
 }
 
+.empty-session {
+  border: 2px solid rgb(77, 214, 88);
+  width: 1000px;
+  max-width: 100%;
+  min-height: 60px;
+  display: flex;
+  flex-direction: row;
+  background: white;
+  border-radius: 4px;
+  overflow: hidden; 
+}
+
+.not-empty-session {
+  width: 1000px;
+  max-width: 100%;
+  border: solid 1px #ccc;
+  min-height: 60px;
+  display: flex;
+  flex-direction: row;
+  background: white;
+  border-radius: 4px;
+  overflow: hidden; 
+}
 .example-container {
   display: flex;
   flex-direction: row;
@@ -15,18 +38,6 @@
 .butonche {
   height: 50px;
   margin-right: 10px;
-}
-
-.example-list {
-  width: 1000px;
-  max-width: 100%;
-  border: solid 1px #ccc;
-  min-height: 60px;
-  display: flex;
-  flex-direction: row;
-  background: white;
-  border-radius: 4px;
-  overflow: hidden;
 }
 
 .example-box {
