@@ -193,4 +193,8 @@ export class ParingTableComponent implements OnInit {
   public isUserLoggedIn(): boolean {
     return this.jwtService.isLoggedIn()
   }
+
+  public getProfilePicFromUsername(username: string): string {
+    return this.userService.generateProfilePicPlaceholder(username);
+  }
 }

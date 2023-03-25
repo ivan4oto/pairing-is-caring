@@ -95,4 +95,31 @@ export class UsersService {
     return this.defaultProfilePicUrl;
   }
 
+  public generateProfilePicPlaceholder(username: string): string {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+  
+    if (!ctx) {
+      throw new Error('Unable to create canvas context');
+    }
+  
+    // Set canvas size
+    canvas.width = 128;
+    canvas.height = 128;
+  
+    // Draw background
+    ctx.fillStyle = '#ccc';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  
+    // Draw initials
+    const initials = username.charAt(0) + username.charAt(1);
+    ctx.fillStyle = '#fff';
+    ctx.font = '48px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText(initials.toUpperCase(), canvas.width / 2, canvas.height / 2 + 16);
+  
+    // Return data URL of the image
+    return canvas.toDataURL();
+  }
+
 }
