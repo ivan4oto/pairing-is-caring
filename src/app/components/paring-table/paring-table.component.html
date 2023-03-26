@@ -14,7 +14,7 @@
               <div class="example-box" *ngFor="let dude of session.value" cdkDrag>
                 <div matTooltip="{{ dude.username }}" >
 
-                  <div *ngIf="!dude.profile_image">{{dude.username}}</div>
+                  <img *ngIf="!dude.profile_image" style="object-fit: cover;"  [src]="getProfilePicFromUsername(dude.username)" height="50px" width="50px"/>
                   <img *ngIf="dude.profile_image" style="object-fit: cover;"  [src]="dude.profile_image.file" height="50px" width="50px"/>
 
                 </div>

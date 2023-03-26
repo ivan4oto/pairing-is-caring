@@ -108,7 +108,7 @@ export class UsersService {
     canvas.height = 128;
   
     // Draw background
-    ctx.fillStyle = '#ccc';
+    ctx.fillStyle = this.generateHexColorFromString(username);
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   
     // Draw initials
@@ -122,4 +122,20 @@ export class UsersService {
     return canvas.toDataURL();
   }
 
+  private generateHexColorFromString(input: string): string {
+    let hash = 0;
+  
+    for (let i = 0; i < input.length; i++) {
+      hash = input.charCodeAt(i) + ((hash << 5) - hash);
+    }
+  
+    let hexColor = '#';
+  
+    for (let i = 0; i < 3; i++) {
+      const value = (hash >> (i * 8)) & 0xFF;
+      hexColor += value.toString(16).padStart(2, '0');
+    }
+  
+    return hexColor;
+  }
 }
