@@ -4,7 +4,7 @@ from django.urls import reverse
 from accounts.models import Account
 
 
-class AccountApiTest(TestCase):
+class TestAccountApi(TestCase):
 
     def create_account(self):
         return Account.objects.create(
