@@ -13,10 +13,7 @@
             <ng-container *ngIf="session.value.length > 0">
               <div class="example-box" *ngFor="let dude of session.value" cdkDrag>
                 <div matTooltip="{{ dude.username }}" >
-
-                  <img *ngIf="!dude.profile_image" style="object-fit: cover;"  [src]="getProfilePicFromUsername(dude.username)" height="50px" width="50px"/>
-                  <img *ngIf="dude.profile_image" style="object-fit: cover;"  [src]="dude.profile_image.file" height="50px" width="50px"/>
-
+                  <img style="object-fit: cover;"  [src]="getUserProfilePic(dude)" height="50px" width="50px"/>
                 </div>
               </div>
             </ng-container>

@@ -85,17 +85,15 @@ export class UsersService {
     );
   }
 
-  public getUserProfilePic(): string {
-    const activeUser: Account = this.getActiveUser();
-    console.log(activeUser);
-    if (activeUser && activeUser.profile_image) {
-      const profileImage: string = activeUser.profile_image.file;
+  public getUserProfilePic(user: Account): string {
+    if (user.profile_image) {
+      const profileImage: string = user.profile_image.url;
       return profileImage;
     }
-    return this.defaultProfilePicUrl;
+    return this.generateProfilePicPlaceholder(user.username);
   }
 
-  public generateProfilePicPlaceholder(username: string): string {
+  private generateProfilePicPlaceholder(username: string): string {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
   

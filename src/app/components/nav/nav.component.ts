@@ -20,7 +20,7 @@ export class NavComponent implements OnInit {
     private router: Router,
     private alertsService: AlertsService
   ) {
-    this.imagePath = userService.getUserProfilePic();
+    this.imagePath = userService.getUserProfilePic(userService.getActiveUser());
   }
 
   ngOnInit(): void {

@@ -30,7 +30,7 @@ export class ProfilePageComponent implements OnInit {
     if (!jwtService.isLoggedIn()) {
       router.navigate(['unauthorized'])
     }
-    this.imagePath = this.usersService.getUserProfilePic();
+    this.imagePath = this.usersService.getUserProfilePic(this.user);
   }
 
   ngOnInit(): void {
