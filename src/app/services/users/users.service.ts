@@ -10,7 +10,6 @@ import { LocalStorageService } from '../local-storage/local-storage.service';
 })
 export class UsersService {
   private baseUrl = 'http://127.0.0.1:8000';
-  private defaultProfilePicUrl = 'https://www.meme-arsenal.com/memes/4025aa16b90b53e92746a96f1368cb4f.jpg';
 
   constructor(
     private httpService: HttpClient,

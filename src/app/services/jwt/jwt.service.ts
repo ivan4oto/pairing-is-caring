@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
 import { Account } from 'src/app/models/accounts';
-import { FileImage } from 'src/app/models/fileUpload';
 import { LocalStorageService } from '../local-storage/local-storage.service';
 
 @Injectable({
