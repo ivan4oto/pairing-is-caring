@@ -6,6 +6,7 @@ import { LoginComponent } from './components/login/login.component';
 import { ProfilePageComponent } from './components/profile-page/profile-page.component';
 import { RegisterComponent } from './components/register/register.component';
 import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
+import { AuthGuard } from './guards/auth/auth.guard';
 
 const routes: Routes = [
   {
@@ -15,6 +16,7 @@ const routes: Routes = [
   },
   {
     path: 'home',
+    canActivate: [AuthGuard],
     component: HomeComponent,
   },
   {
