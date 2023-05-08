@@ -1,20 +1,25 @@
 
+<div class="grid-container">
   <form class="form-container" [formGroup]="loginForm">
-    <h1>Login bellow</h1>
-      <mat-form-field appearance="fill">
-        <mat-label>email</mat-label>
-        <input matInput formControlName="email" />
-      </mat-form-field>
+  <h1>Login below</h1>
+  <mat-form-field appearance="fill" class="form-field">
+    <mat-label>Email</mat-label>
+    <input matInput formControlName="email" />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="form-field">
+    <mat-label>Password</mat-label>
+    <input matInput formControlName="password" />
+  </mat-form-field>
+
+  <button mat-raised-button class="login-button">Login</button>
+  <p class="register-text">
+    Not registered? <a routerLink="/register">Sign up.</a>
+  </p>
+</form>
+</div>
+
   
-    
-      <mat-form-field appearance="fill">
-        <mat-label>password</mat-label>
-        <input matInput formControlName="password" />
-      </mat-form-field>
-    
-      <button mat-raised-button (click)="execute()">Login</button>
-    </form>
-    
   
     <h3>nashiquzar</h3>
     <h3>nashataparola</h3>
