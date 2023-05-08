@@ -28,6 +28,7 @@ import { UnauthorizedComponent } from './components/unauthorized/unauthorized.co
 import { UserOverviewComponent } from './components/user-overview/user-overview.component';
 import { ImageUploadComponent } from './components/image-upload/image-upload.component';
 import { SessionConfirmationDialogComponent } from './components/session-confirmation-dialog/session-confirmation-dialog.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { SessionConfirmationDialogComponent } from './components/session-confirm
     UserOverviewComponent,
     ImageUploadComponent,
     SessionConfirmationDialogComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
